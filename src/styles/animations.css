@@ -125,6 +125,12 @@
   50%       { box-shadow: 0 0 30px rgba(0,255,106,0.22), 0 0 60px rgba(0,255,106,0.1); }
 }
 
+/* Gold portrait glow for calm/light mode */
+@keyframes portraitGlowGold {
+  0%, 100% { box-shadow: 0 0 20px rgba(212,160,23,0.15), 0 0 40px rgba(212,160,23,0.06); }
+  50%       { box-shadow: 0 0 30px rgba(212,160,23,0.25), 0 0 60px rgba(212,160,23,0.12); }
+}
+
 /* Staggered letter reveal for hero */
 @keyframes letterIn {
   from { opacity: 0; transform: translateY(24px) skewY(3deg); }

@@ -318,15 +318,23 @@ export default function SoundSystem() {
     prevModal.current = activeModal;
   }, [activeModal]);
 
-  // ── Global hover tick + click slash ───────────────────
+  // ── Hover tick — only nav links + action buttons ──────
   useEffect(() => {
+    // Specific selectors: nav links, CTAs, filter tabs, mode toggle
+    // Excluded: form inputs, textareas, skill cards (too many), generic divs
+    const ACTION = "nav a, [data-sound='hover'], .cta-btn";
     const onEnter = (e: MouseEvent) => {
       const el = e.target as Element;
-      if (el.matches("a, button, [role='button']")) playHoverTick();
+      if (el.closest(ACTION)) playHoverTick();
     };
+    // Click slash — only on intentional action buttons, not form fields
     const onClick = (e: MouseEvent) => {
       const el = e.target as Element;
-      if (el.matches("a, button, [role='button'], input, textarea")) playClickSlash();
+      // Skip if it's an input or textarea
+      if (el.matches("input, textarea, select")) return;
+      // Only fire for buttons and links that are action-oriented
+      const actionEl = el.closest("button:not([disabled]), a[href]");
+      if (actionEl) playClickSlash();
     };
     document.addEventListener("mouseover", onEnter);
     document.addEventListener("click",     onClick);

@@ -43,34 +43,34 @@
   --selection-bg:   #007a30;
 }
 
-/* ── CALM MODE — soft blue-slate theme ── */
+/* ── CALM MODE — layered blue shades + gold accent ── */
 body.calm-mode {
-  /* Backgrounds — slightly blue-shifted, lighter */
-  --color-void:    #04080f;
-  --color-deep:    #060c18;
-  --color-surface: #091220;
-  --color-card:    #0c1828;
-  --color-card-h:  #101e30;
+  /* Backgrounds — 5 distinct blue shades for real depth */
+  --color-void:    #eaf3ff;   /* lightest — page base */
+  --color-deep:    #dceaf8;   /* sections that alternate */
+  --color-surface: #cddff2;   /* input bg, skill bars */
+  --color-card:    #bfd4ec;   /* cards */
+  --color-card-h:  #b0cae6;   /* card hover */
 
-  /* Accent — soft jade / sage green */
-  --color-accent:       #4ade80;
-  --color-accent-mid:   #6ee7a0;
-  --color-accent-dim:   #22c55e;
-  --color-accent-dark:  #15803d;
-  --color-accent-ghost: rgba(74,222,128,0.06);
-  --color-accent-glow:  rgba(74,222,128,0.15);
+  /* Accent — gold / amber */
+  --color-accent:       #d4a017;
+  --color-accent-mid:   #e8b830;
+  --color-accent-dim:   #b8880f;
+  --color-accent-dark:  #8a6008;
+  --color-accent-ghost: rgba(212,160,23,0.08);
+  --color-accent-glow:  rgba(212,160,23,0.2);
 
-  /* Text — slightly warmer/brighter */
-  --color-text-primary:   #e8f4ff;
-  --color-text-secondary: #7db8cc;
-  --color-text-muted:     #5a8a9e;
-  --color-text-dim:       #3f6070;
+  /* Text — dark on light */
+  --color-text-primary:   #0f1f2e;
+  --color-text-secondary: #2a4a6e;
+  --color-text-muted:     #4a6a8e;
+  --color-text-dim:       #6a8aae;
 
   /* UI */
-  --eyebrow-color:  #4ade80;
-  --scan-color:     rgba(74,222,128,0.35);
-  --scan-glow:      rgba(74,222,128,0.2);
-  --selection-bg:   #15803d;
+  --eyebrow-color:  #d4a017;
+  --scan-color:     rgba(212,160,23,0.3);
+  --scan-glow:      rgba(212,160,23,0.15);
+  --selection-bg:   #d4a017;
 }
 
 /* ── BASE RESET ── */
@@ -92,8 +92,18 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   min-height: 100vh;
-  transition: background-color 0.6s ease, color 0.4s ease;
+  transition: background-color 0.5s ease, color 0.4s ease;
 }
+
+/* Light mode needs different border treatment */
+body.calm-mode .border-green-core\/8  { border-color: rgba(212,160,23,0.15) !important; }
+body.calm-mode .border-green-core\/10 { border-color: rgba(212,160,23,0.18) !important; }
+body.calm-mode .border-green-core\/20 { border-color: rgba(212,160,23,0.30) !important; }
+body.calm-mode .border-green-core\/25 { border-color: rgba(212,160,23,0.38) !important; }
+body.calm-mode .bg-deep   { background-color: var(--color-deep) !important; }
+body.calm-mode .bg-void   { background-color: var(--color-void) !important; }
+body.calm-mode .bg-surface { background-color: var(--color-surface) !important; }
+body.calm-mode .bg-card   { background-color: var(--color-card) !important; }
 
 ::selection {
   background: var(--selection-bg);
@@ -260,9 +270,14 @@ body {
 }
 .card-shine:hover::before { left: 150%; }
 
-/* ── CALM MODE — calm card shine uses blue tint ── */
+/* ── CALM MODE — card shine uses gold tint ── */
 body.calm-mode .card-shine::before {
-  background: linear-gradient(90deg, transparent, rgba(74,222,128,0.03), transparent);
+  background: linear-gradient(90deg, transparent, rgba(212,160,23,0.06), transparent);
+}
+
+/* Calm mode — portrait glow uses gold */
+body.calm-mode .portrait-glow {
+  animation: portraitGlowGold 4s ease-in-out infinite;
 }
 
 /* ── NEON BORDER GLOW on focus ── */

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Footer from "@/components/shared/Footer";
+import TwoMoons from "@/components/effects/TwoMoons";
 
 const fadeUp = (delay = 0) => ({
   initial:    { opacity: 0, y: 20 },
@@ -75,6 +76,9 @@ export default function Hero() {
         className="relative h-screen min-h-[600px] flex flex-col items-center
                    justify-center overflow-hidden text-center px-5 sm:px-8"
       >
+        {/* Two moons — dark mode only */}
+        <TwoMoons />
+
         {/* ── Grid background ── */}
         <div
           className="absolute inset-0 pointer-events-none"
