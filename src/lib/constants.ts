@@ -2,7 +2,7 @@
 // CONSTANTS — srihari-portfolio
 // ============================================================
 
-export const SITE_NAME = "Srihari Prasad S";
+export const SITE_NAME = "Srihari Prasad.S";
 export const SITE_TAGLINE = "You Think, I Make It Real";
 export const SITE_SUBTITLE = "Thinking is Limitless";
 export const SITE_EMAIL = "srihariprasad7078@gmail.com";
