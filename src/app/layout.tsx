@@ -5,15 +5,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import Navbar        from "@/components/shared/Navbar";
-import Footer        from "@/components/shared/Footer";
-import ScrollProgress from "@/components/shared/ScrollProgress";
-import SectionDots   from "@/components/shared/SectionDots";
-import Cursor         from "@/components/effects/Cursor";
-import ParticleCanvas from "@/components/effects/ParticleCanvas";
-import SwordSlash     from "@/components/effects/SwordSlash";
-import EasterEgg      from "@/components/effects/EasterEgg";
-import LoadingScreen  from "@/components/effects/LoadingScreen";
+import Navbar          from "@/components/shared/Navbar";
+import ScrollProgress  from "@/components/shared/ScrollProgress";
+import SectionDots     from "@/components/shared/SectionDots";
+import Cursor          from "@/components/effects/Cursor";
+import ParticleCanvas  from "@/components/effects/ParticleCanvas";
+import SwordSlash      from "@/components/effects/SwordSlash";
+import EasterEgg       from "@/components/effects/EasterEgg";
+import LoadingScreen   from "@/components/effects/LoadingScreen";
+import ModeApplicator  from "@/components/effects/ModeApplicator";
+import SoundSystem     from "@/components/effects/SoundSystem";
 
 export const metadata: Metadata = {
   title: "Srihari Prasad S — You Think, I Make It Real",
@@ -36,7 +37,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* Global effects — always mounted */}
+        {/* Theme applicator — must be first so CSS vars apply before paint */}
+        <ModeApplicator />
+
+        {/* Sound engine */}
+        <SoundSystem />
+
+        {/* Visual effects — always mounted */}
         <LoadingScreen />
         <Cursor />
         <ParticleCanvas />
@@ -50,8 +57,6 @@ export default function RootLayout({
 
         {/* Page content */}
         <main>{children}</main>
-
-        {/* Footer rendered per-page to allow customization */}
       </body>
     </html>
   );
