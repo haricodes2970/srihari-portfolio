@@ -25,7 +25,10 @@ export interface Skill {
   styleName: string;
   name: string;
   category: SkillCategory;
-  level: number; // 0-100
+  level: number;       // 0–100
+  why: string;         // why this %, honest narrative
+  tools: string[];     // specific libs / frameworks within this skill
+  usedIn: string[];    // project names where applied
 }
 
 export interface Certificate {
