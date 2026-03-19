@@ -1,0 +1,101 @@
+/* ============================================================
+   GLOBALS — srihari-portfolio
+   ============================================================ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap");
+@import "../styles/animations.css";
+
+/* ── CSS VARIABLES ── */
+:root {
+  --font-cinzel:          "Cinzel", serif;
+  --font-rajdhani:        "Rajdhani", sans-serif;
+  --font-share-tech-mono: "Share Tech Mono", monospace;
+}
+
+/* ── BASE RESET ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  cursor: none;
+}
+
+body {
+  background-color: #040a06;
+  color: #dff2e8;
+  font-family: var(--font-rajdhani);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Calm mode overrides */
+body.calm-mode {
+  --green-core: #4ade80;
+}
+
+::selection {
+  background: #007a30;
+  color: #fff;
+}
+
+/* Hide default cursor everywhere */
+* { cursor: none !important; }
+
+/* ── UTILITY CLASSES ── */
+.font-display { font-family: var(--font-cinzel), serif; }
+.font-ui      { font-family: var(--font-rajdhani), sans-serif; }
+.font-mono    { font-family: var(--font-share-tech-mono), monospace; }
+
+/* Section eyebrow with line */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-share-tech-mono);
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #00ff6a;
+}
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: #00ff6a;
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+              transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal.delay-1 { transition-delay: 0.1s; }
+.reveal.delay-2 { transition-delay: 0.2s; }
+.reveal.delay-3 { transition-delay: 0.3s; }
+.reveal.delay-4 { transition-delay: 0.4s; }
+
+/* Page entrance */
+.page-enter {
+  animation: pageIn 0.55s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* Border dim utilities */
+.border-dim    { border-color: rgba(0,255,106,0.08); }
+.border-mid    { border-color: rgba(0,255,106,0.18); }
+.border-bright { border-color: rgba(0,255,106,0.4); }
