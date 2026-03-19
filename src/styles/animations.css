@@ -67,3 +67,72 @@
 .skill-bar-fill {
   animation: swordFill 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+/* ── NEW ANIMATIONS ─────────────────────────────────────── */
+
+/* Horizontal scan line — single pass top → bottom */
+@keyframes scanLine {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 0.6; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Ambient float for background dots */
+@keyframes ambientFloat {
+  0%   { transform: translateY(0px) translateX(0px); opacity: 0.15; }
+  33%  { transform: translateY(-12px) translateX(4px); opacity: 0.35; }
+  66%  { transform: translateY(-6px) translateX(-6px); opacity: 0.2; }
+  100% { transform: translateY(0px) translateX(0px); opacity: 0.15; }
+}
+
+/* Shimmer — gradient slide across text */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Text glitch */
+@keyframes glitch {
+  0%   { clip-path: inset(40% 0 61% 0); transform: translate(-2px, -1px); }
+  10%  { clip-path: inset(92% 0 1% 0);  transform: translate(1px, 2px); }
+  20%  { clip-path: inset(43% 0 1% 0);  transform: translate(-1px, 1px); }
+  30%  { clip-path: inset(25% 0 58% 0); transform: translate(2px, -1px); }
+  40%  { clip-path: inset(54% 0 7% 0);  transform: translate(-2px, 2px); }
+  50%  { clip-path: inset(58% 0 43% 0); transform: translate(1px, -2px); }
+  60%  { clip-path: inset(80% 0 5% 0);  transform: translate(-1px, 1px); }
+  70%  { clip-path: inset(14% 0 78% 0); transform: translate(2px, 1px); }
+  80%  { clip-path: inset(66% 0 12% 0); transform: translate(-2px, -1px); }
+  90%  { clip-path: inset(30% 0 62% 0); transform: translate(1px, 2px); }
+  100% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, -1px); }
+}
+
+/* Portrait corner bracket expand */
+@keyframes bracketExpand {
+  from { width: 0; height: 0; opacity: 0; }
+  to   { width: 20px; height: 20px; opacity: 1; }
+}
+
+/* Orbit — used for ambient ring accents */
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit-r, 80px)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--orbit-r, 80px)) rotate(-360deg); }
+}
+
+/* Soft pulse for portrait glow ring */
+@keyframes portraitGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0,255,106,0.12), 0 0 40px rgba(0,255,106,0.05); }
+  50%       { box-shadow: 0 0 30px rgba(0,255,106,0.22), 0 0 60px rgba(0,255,106,0.1); }
+}
+
+/* Staggered letter reveal for hero */
+@keyframes letterIn {
+  from { opacity: 0; transform: translateY(24px) skewY(3deg); }
+  to   { opacity: 1; transform: translateY(0)    skewY(0deg); }
+}
+
+/* Mode toggle ripple */
+@keyframes toggleRipple {
+  0%   { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(3); opacity: 0;   }
+}
