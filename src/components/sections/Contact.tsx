@@ -6,32 +6,22 @@ import Footer from "@/components/shared/Footer";
 import { SITE_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/constants";
 
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-40px" },
-  transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] },
+  initial:      { opacity: 0, y: 20 },
+  whileInView:  { opacity: 1, y: 0 },
+  viewport:     { once: true, margin: "-40px" },
+  transition:   { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
 const LINKS = [
-  {
-    icon: "⌥",
-    label: "GitHub",
-    value: "haricodes2970",
-    href: GITHUB_URL,
-  },
-  {
-    icon: "◈",
-    label: "LinkedIn",
-    value: "haricodes2970",
-    href: LINKEDIN_URL,
-  },
+  { icon: "⌥", label: "GitHub",   value: "haricodes2970", href: GITHUB_URL   },
+  { icon: "◈", label: "LinkedIn", value: "haricodes2970", href: LINKEDIN_URL },
 ];
 
 export default function Contact() {
-  const [name, setName]     = useState("");
-  const [email, setEmail]   = useState("");
+  const [name,    setName]    = useState("");
+  const [email,   setEmail]   = useState("");
   const [message, setMessage] = useState("");
-  const [sent, setSent]     = useState(false);
+  const [sent,    setSent]    = useState(false);
 
   const handleSubmit = () => {
     if (!name.trim() || !message.trim()) return;
@@ -50,10 +40,13 @@ export default function Contact() {
         id="contact"
         className="min-h-screen bg-void border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
-                   flex flex-col justify-center"
+                   flex flex-col justify-center relative overflow-hidden"
       >
+        {/* Scan line */}
+        <div className="scan-overlay" />
+
         {/* Section header */}
-        <motion.div {...fadeUp(0)} className="mb-12 sm:mb-16">
+        <motion.div {...fadeUp(0)} className="mb-12 sm:mb-16 relative z-10">
           <div className="eyebrow mb-3">Final Arc</div>
           <h2
             className="font-display font-bold text-text-primary leading-tight"
@@ -64,7 +57,7 @@ export default function Contact() {
         </motion.div>
 
         {/* Two column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-20 items-start max-w-5xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-20 items-start max-w-5xl relative z-10">
 
           {/* ── Left — Info ── */}
           <div className="flex flex-col gap-6">
@@ -74,10 +67,17 @@ export default function Contact() {
                 style={{ fontSize: "clamp(20px, 3vw, 30px)" }}
               >
                 Have an idea?{" "}
-                <span className="text-green-core">Let&apos;s make it real.</span>
+                <span
+                  className="text-green-core"
+                  style={{ textShadow: "0 0 20px rgba(0,255,106,0.2)" }}
+                >
+                  Let&apos;s make it real.
+                </span>
               </h3>
-              <p className="font-ui font-light text-text-secondary leading-relaxed"
-                 style={{ fontSize: "clamp(13px, 1.6vw, 15px)" }}>
+              <p
+                className="font-ui font-light text-text-secondary leading-relaxed"
+                style={{ fontSize: "clamp(13px, 1.6vw, 15px)" }}
+              >
                 Whether it&apos;s an AI product, a full-stack system, or just a
                 conversation about building something that doesn&apos;t exist yet —
                 reach out. I&apos;m always interested in ambitious projects and
@@ -85,16 +85,40 @@ export default function Contact() {
               </p>
             </motion.div>
 
+            {/* Status indicator */}
+            <motion.div
+              {...fadeUp(0.15)}
+              className="flex items-center gap-3 py-3 px-4 border border-green-core/10
+                         bg-green-core/4 rounded-sm"
+            >
+              <span
+                className="w-2 h-2 rounded-full bg-green-core flex-shrink-0"
+                style={{
+                  boxShadow: "0 0 8px #00ff6a",
+                  animation: "wipPulse 2s ease-in-out infinite",
+                }}
+              />
+              <span className="font-mono text-[9px] tracking-[2px] uppercase text-green-core">
+                Available for projects · Responds fast
+              </span>
+            </motion.div>
+
             {/* Email */}
             <motion.a
               {...fadeUp(0.2)}
               href={`mailto:${SITE_EMAIL}`}
               className="flex items-center gap-4 p-4 sm:p-5
-                         bg-card border border-green-core/8 rounded-sm
-                         transition-colors duration-200 hover:border-green-core/20
-                         group"
+                         bg-card border border-green-core/8 rounded-sm card-shine
+                         transition-all duration-300 group
+                         hover:border-green-core/25
+                         hover:shadow-[0_0_24px_rgba(0,255,106,0.08)]"
             >
-              <span className="text-xl">✉</span>
+              <span
+                className="text-xl transition-transform duration-300 group-hover:scale-110"
+                style={{ filter: "drop-shadow(0 0 6px rgba(0,255,106,0.3))" }}
+              >
+                ✉
+              </span>
               <div>
                 <p className="font-mono text-[8px] tracking-[3px] uppercase text-text-dim mb-1">
                   Email
@@ -104,6 +128,11 @@ export default function Contact() {
                   {SITE_EMAIL}
                 </p>
               </div>
+              <span className="ml-auto font-mono text-[9px] text-text-dim
+                               opacity-0 group-hover:opacity-100 transition-all duration-300
+                               group-hover:translate-x-0 translate-x-1">
+                →
+              </span>
             </motion.a>
 
             {/* Social links */}
@@ -115,11 +144,15 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4
-                             bg-card border border-green-core/8 rounded-sm
-                             transition-colors duration-200 hover:border-green-core/20
-                             group"
+                             bg-card border border-green-core/8 rounded-sm card-shine
+                             transition-all duration-300 group
+                             hover:border-green-core/25
+                             hover:shadow-[0_0_20px_rgba(0,255,106,0.07)]"
                 >
-                  <span className="text-lg text-text-muted">{link.icon}</span>
+                  <span className="text-lg text-text-muted transition-all duration-300
+                                   group-hover:text-green-core group-hover:scale-110">
+                    {link.icon}
+                  </span>
                   <div>
                     <p className="font-mono text-[8px] tracking-[3px] uppercase
                                   text-text-dim mb-1">
@@ -130,6 +163,11 @@ export default function Contact() {
                       {link.value}
                     </p>
                   </div>
+                  <span className="ml-auto font-mono text-[9px] text-text-dim
+                                   opacity-0 group-hover:opacity-100 transition-all duration-300
+                                   group-hover:translate-x-0 translate-x-1">
+                    →
+                  </span>
                 </a>
               ))}
             </motion.div>
@@ -138,8 +176,18 @@ export default function Contact() {
           {/* ── Right — Message form ── */}
           <motion.div
             {...fadeUp(0.2)}
-            className="bg-card border border-green-core/8 rounded-sm p-6 sm:p-8"
+            className="bg-card border border-green-core/10 rounded-sm p-6 sm:p-8
+                       relative overflow-hidden"
+            style={{ boxShadow: "0 0 40px rgba(0,255,106,0.04)" }}
           >
+            {/* Top accent */}
+            <div
+              className="absolute top-0 left-0 right-0 h-px"
+              style={{
+                background: "linear-gradient(90deg, transparent, rgba(0,255,106,0.4), transparent)",
+              }}
+            />
+
             <h3 className="font-display font-bold text-text-primary text-base mb-6">
               Send a Message
             </h3>
@@ -155,10 +203,10 @@ export default function Contact() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your name"
-                className="w-full bg-surface border border-green-core/8 rounded-sm
+                className="w-full bg-surface border border-green-core/10 rounded-sm
                            px-4 py-2.5 font-ui text-sm text-text-primary
                            placeholder:text-text-dim outline-none
-                           focus:border-green-core/25 transition-colors duration-200"
+                           transition-all duration-200"
               />
             </div>
 
@@ -173,10 +221,10 @@ export default function Contact() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full bg-surface border border-green-core/8 rounded-sm
+                className="w-full bg-surface border border-green-core/10 rounded-sm
                            px-4 py-2.5 font-ui text-sm text-text-primary
                            placeholder:text-text-dim outline-none
-                           focus:border-green-core/25 transition-colors duration-200"
+                           transition-all duration-200"
               />
             </div>
 
@@ -191,10 +239,10 @@ export default function Contact() {
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="What are we building?"
                 rows={4}
-                className="w-full bg-surface border border-green-core/8 rounded-sm
+                className="w-full bg-surface border border-green-core/10 rounded-sm
                            px-4 py-2.5 font-ui text-sm text-text-primary
                            placeholder:text-text-dim outline-none resize-none
-                           focus:border-green-core/25 transition-colors duration-200"
+                           transition-all duration-200"
               />
             </div>
 
@@ -202,15 +250,33 @@ export default function Contact() {
             <button
               onClick={handleSubmit}
               disabled={!name.trim() || !message.trim()}
-              className={`w-full font-mono text-[10px] tracking-[3px] uppercase
-                          py-3.5 rounded-sm transition-all duration-300
-                          ${sent
-                            ? "bg-green-dim text-void"
-                            : "bg-green-core text-void hover:shadow-[0_0_24px_rgba(0,255,106,0.3)]"
-                          }
-                          disabled:opacity-40 disabled:cursor-not-allowed`}
+              className={`
+                group relative w-full font-mono text-[10px] tracking-[3px] uppercase
+                py-3.5 rounded-sm overflow-hidden
+                transition-all duration-300
+                disabled:opacity-40 disabled:cursor-not-allowed
+                ${sent
+                  ? "bg-green-dim text-void"
+                  : "bg-green-core text-void hover:shadow-[0_0_30px_rgba(0,255,106,0.4),0_0_60px_rgba(0,255,106,0.15)]"
+                }
+              `}
             >
-              {sent ? "✓ Message Sent" : "⚔ Send Message"}
+              <span className="relative z-10">
+                {sent ? "✓ Message Sent" : "⚔ Send Message"}
+              </span>
+              {/* Shine sweep */}
+              {!sent && (
+                <span
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100
+                             transition-opacity duration-500"
+                  style={{
+                    background:
+                      "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%)",
+                    backgroundSize: "200% 100%",
+                    animation: "shimmer 1.5s ease infinite",
+                  }}
+                />
+              )}
             </button>
 
             <p className="font-mono text-[8px] tracking-[2px] uppercase text-text-dim

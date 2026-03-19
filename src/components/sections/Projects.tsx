@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { projects } from "@/lib/data";
@@ -11,8 +11,11 @@ import type { Project, Rank } from "@/types";
 function RankBadge({ rank }: { rank: Rank }) {
   const c = RANK_COLORS[rank];
   return (
-    <span className={`font-mono text-[9px] tracking-[2px] uppercase
-                      px-2.5 py-1 rounded-sm border ${c.bg} ${c.text} ${c.border}`}>
+    <span
+      className={`font-mono text-[9px] tracking-[2px] uppercase
+                  px-2.5 py-1 rounded-sm border ${c.bg} ${c.text} ${c.border}`}
+      style={{ textShadow: rank === "S" ? "0 0 10px currentColor" : "none" }}
+    >
       {rank} Rank
     </span>
   );
@@ -21,9 +24,11 @@ function RankBadge({ rank }: { rank: Rank }) {
 // ── WIP badge ─────────────────────────────────────────────
 function WipBadge() {
   return (
-    <span className="font-mono text-[8px] tracking-[2px] uppercase px-2.5 py-1
-                     rounded-sm border bg-yellow-500/8 text-yellow-400 border-yellow-500/20"
-          style={{ animation: "wipPulse 2s ease infinite" }}>
+    <span
+      className="font-mono text-[8px] tracking-[2px] uppercase px-2.5 py-1
+                 rounded-sm border bg-yellow-500/8 text-yellow-400 border-yellow-500/20"
+      style={{ animation: "wipPulse 2s ease infinite" }}
+    >
       In Progress
     </span>
   );
@@ -47,16 +52,26 @@ function ProjectCard({
       transition={{ duration: 0.65, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
       onClick={() => onOpen(project)}
       className="group bg-card border border-green-core/8 p-6 sm:p-7
-                 flex flex-col relative overflow-hidden
-                 transition-colors duration-250 cursor-pointer
-                 hover:bg-card-h"
+                 flex flex-col relative overflow-hidden card-shine
+                 transition-all duration-300 cursor-pointer
+                 hover:bg-card-h hover:border-green-core/20
+                 hover:shadow-[0_0_32px_rgba(0,255,106,0.07),inset_0_0_32px_rgba(0,255,106,0.02)]"
     >
       {/* Top green line sweep on hover */}
       <div
         className="absolute top-0 left-0 right-0 h-px
                    bg-gradient-to-r from-transparent via-green-core to-transparent
                    scale-x-0 group-hover:scale-x-100
-                   transition-transform duration-400 ease-out"
+                   transition-transform duration-500 ease-out"
+        style={{ boxShadow: "0 0 8px rgba(0,255,106,0.4)" }}
+      />
+
+      {/* Bottom line */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-px
+                   bg-gradient-to-r from-transparent via-green-core/30 to-transparent
+                   scale-x-0 group-hover:scale-x-100
+                   transition-transform duration-500 ease-out delay-75"
       />
 
       {/* Header row */}
@@ -72,24 +87,31 @@ function ProjectCard({
 
       {/* Title */}
       <h3
-        className="font-display font-bold text-text-primary leading-snug mb-3"
+        className="font-display font-bold text-text-primary leading-snug mb-3
+                   group-hover:text-green-core transition-colors duration-300"
         style={{ fontSize: "clamp(16px, 2.2vw, 20px)" }}
       >
         {project.title}
       </h3>
 
       {/* Overview */}
-      <p className="font-ui font-light text-text-secondary leading-relaxed flex-1 mb-5"
-         style={{ fontSize: "clamp(13px, 1.5vw, 14px)" }}>
+      <p
+        className="font-ui font-light text-text-secondary leading-relaxed flex-1 mb-5"
+        style={{ fontSize: "clamp(13px, 1.5vw, 14px)" }}
+      >
         {project.overview}
       </p>
 
       {/* Tech stack */}
       <div className="flex flex-wrap gap-1.5 mb-5">
         {project.tech.slice(0, 6).map((t) => (
-          <span key={t}
-                className="font-mono text-[9px] tracking-[1px] text-text-dim
-                           bg-surface border border-green-core/8 px-2.5 py-1 rounded-sm">
+          <span
+            key={t}
+            className="font-mono text-[9px] tracking-[1px] text-text-dim
+                       bg-surface border border-green-core/8 px-2.5 py-1 rounded-sm
+                       transition-all duration-200
+                       group-hover:border-green-core/16 group-hover:text-text-secondary"
+          >
             {t}
           </span>
         ))}
@@ -111,7 +133,7 @@ function ProjectCard({
             onClick={(e) => e.stopPropagation()}
             className="font-mono text-[9px] tracking-[2px] uppercase text-green-core
                        flex items-center gap-1.5 transition-all duration-200
-                       hover:gap-2.5"
+                       hover:gap-2.5 hover:text-green-dim"
           >
             {project.githubLabel ? `⌥ ${project.githubLabel}` : "⌥ GitHub →"}
           </a>
@@ -124,7 +146,7 @@ function ProjectCard({
             onClick={(e) => e.stopPropagation()}
             className="font-mono text-[9px] tracking-[2px] uppercase text-green-core
                        flex items-center gap-1.5 transition-all duration-200
-                       hover:gap-2.5"
+                       hover:gap-2.5 hover:text-green-dim"
           >
             ⬡ Live →
           </a>
@@ -134,10 +156,11 @@ function ProjectCard({
             ⚒ Coming Soon
           </span>
         )}
-        {/* Deep dive hint */}
-        <span className="font-mono text-[9px] tracking-[2px] uppercase text-text-dim
-                         ml-auto opacity-0 group-hover:opacity-100
-                         transition-opacity duration-200">
+        <span
+          className="font-mono text-[9px] tracking-[2px] uppercase text-text-dim
+                     ml-auto opacity-0 group-hover:opacity-100 flex items-center gap-1.5
+                     transition-all duration-300 group-hover:translate-x-0 translate-x-1"
+        >
           Deep Dive →
         </span>
       </div>
@@ -153,52 +176,66 @@ function ProjectModal({
   project: Project;
   onClose: () => void;
 }) {
-  // Close on Escape
-  if (typeof window !== "undefined") {
+  useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", handler, { once: true });
-  }
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.25 }}
+      transition={{ duration: 0.22 }}
       className="fixed inset-0 z-[5000] flex items-center justify-center p-4 sm:p-6
-                 bg-void/92 backdrop-blur-xl"
+                 bg-void/93 backdrop-blur-2xl"
       onClick={onClose}
     >
       <motion.div
-        initial={{ opacity: 0, y: 24, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 16, scale: 0.97 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: 28, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0,  scale: 1    }}
+        exit={{ opacity: 0, y: 18, scale: 0.97 }}
+        transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-card border border-green-core/20 rounded-sm
+        className="bg-card border border-green-core/22 rounded-sm
                    w-full max-w-2xl max-h-[88vh] overflow-y-auto
                    p-6 sm:p-10 relative"
+        style={{ boxShadow: "0 0 60px rgba(0,255,106,0.08), 0 40px 80px rgba(0,0,0,0.6)" }}
       >
+        {/* Top accent line */}
+        <div
+          className="absolute top-0 left-0 right-0 h-px"
+          style={{
+            background: "linear-gradient(90deg, transparent, rgba(0,255,106,0.5), transparent)",
+            boxShadow:  "0 0 8px rgba(0,255,106,0.3)",
+          }}
+        />
+
+        {/* Scan line on modal */}
+        <div className="scan-overlay rounded-sm" />
+
         {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 font-mono text-[9px] tracking-[2px]
-                     uppercase text-text-muted border border-green-core/8
-                     px-3 py-1.5 rounded-sm
+                     uppercase text-text-muted border border-green-core/10
+                     px-3 py-1.5 rounded-sm z-10
                      transition-all duration-200
-                     hover:text-green-core hover:border-green-core/20"
+                     hover:text-green-core hover:border-green-core/30
+                     hover:shadow-[0_0_12px_rgba(0,255,106,0.1)]"
         >
           ✕ Close
         </button>
 
         {/* Rank + title */}
-        <div className="mb-2">
+        <div className="mb-2 flex items-center gap-2 flex-wrap">
           <RankBadge rank={project.rank} />
-          {project.wip && <span className="ml-2"><WipBadge /></span>}
+          {project.wip && <WipBadge />}
         </div>
         <h2
           className="font-display font-bold text-text-primary leading-snug mt-3 mb-6 pr-16"
-          style={{ fontSize: "clamp(18px, 3vw, 26px)" }}
+          style={{ fontSize: "clamp(18px, 3vw, 26px)", textShadow: "0 0 30px rgba(0,255,106,0.08)" }}
         >
           {project.title}
         </h2>
@@ -208,13 +245,15 @@ function ProjectModal({
           <p className="font-mono text-[9px] tracking-[3px] uppercase text-green-core mb-2">
             Mission Overview
           </p>
-          <p className="font-ui text-text-secondary leading-relaxed font-light"
-             style={{ fontSize: "clamp(13px, 1.5vw, 14px)" }}>
+          <p
+            className="font-ui text-text-secondary leading-relaxed font-light"
+            style={{ fontSize: "clamp(13px, 1.5vw, 14px)" }}
+          >
             {project.overview}
           </p>
         </div>
 
-        <div className="h-px bg-green-core/8 my-5" />
+        <div className="h-px my-5" style={{ background: "linear-gradient(90deg, rgba(0,255,106,0.12), transparent)" }} />
 
         {/* Deep dive */}
         <div className="mb-5">
@@ -228,13 +267,13 @@ function ProjectModal({
               __html: project.detail
                 .replace(/\*\*(.*?)\*\*/g, '<strong class="text-text-primary font-medium">$1</strong>')
                 .replace(/\n\n/g, '</p><p class="mt-3">')
-                .replace(/^/, '<p>')
-                .replace(/$/, '</p>'),
+                .replace(/^/, "<p>")
+                .replace(/$/, "</p>"),
             }}
           />
         </div>
 
-        <div className="h-px bg-green-core/8 my-5" />
+        <div className="h-px my-5" style={{ background: "linear-gradient(90deg, rgba(0,255,106,0.12), transparent)" }} />
 
         {/* Full tech stack */}
         <div className="mb-6">
@@ -242,12 +281,19 @@ function ProjectModal({
             Full Tech Stack
           </p>
           <div className="flex flex-wrap gap-2">
-            {project.tech.map((t) => (
-              <span key={t}
-                    className="font-mono text-[9px] tracking-[1px] text-text-dim
-                               bg-surface border border-green-core/8 px-2.5 py-1 rounded-sm">
+            {project.tech.map((t, i) => (
+              <motion.span
+                key={t}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: i * 0.03 }}
+                className="font-mono text-[9px] tracking-[1px] text-text-dim
+                           bg-surface border border-green-core/10 px-2.5 py-1 rounded-sm
+                           hover:border-green-core/25 hover:text-text-secondary
+                           transition-colors duration-200"
+              >
                 {t}
-              </span>
+              </motion.span>
             ))}
           </div>
         </div>
@@ -260,12 +306,21 @@ function ProjectModal({
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-[10px] tracking-[3px] uppercase
-                           text-void bg-green-core px-6 py-3 rounded-sm
-                           transition-shadow duration-300
-                           hover:shadow-[0_0_20px_rgba(0,255,106,0.3)]"
+                className="group relative font-mono text-[10px] tracking-[3px] uppercase
+                           text-void bg-green-core px-6 py-3 rounded-sm overflow-hidden
+                           transition-all duration-300
+                           hover:shadow-[0_0_28px_rgba(0,255,106,0.4)]"
               >
                 {project.githubLabel ? `⌥ ${project.githubLabel}` : "⌥ GitHub"}
+                <span
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100
+                             transition-opacity duration-500"
+                  style={{
+                    background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%)",
+                    backgroundSize: "200% 100%",
+                    animation: "shimmer 1.5s ease infinite",
+                  }}
+                />
               </a>
             )}
             {project.live && (
@@ -274,16 +329,16 @@ function ProjectModal({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-mono text-[10px] tracking-[3px] uppercase
-                           text-green-core border border-green-core/20 px-6 py-3 rounded-sm
+                           text-green-core border border-green-core/22 px-6 py-3 rounded-sm
                            transition-all duration-300
-                           hover:border-green-core/40 hover:bg-green-core/5"
+                           hover:border-green-core/45 hover:bg-green-core/6
+                           hover:shadow-[0_0_16px_rgba(0,255,106,0.12)]"
               >
                 ⬡ Live Demo
               </a>
             )}
             {project.note && (
-              <p className="font-mono text-[9px] tracking-[1px] text-text-dim
-                            self-center w-full mt-1">
+              <p className="font-mono text-[9px] tracking-[1px] text-text-dim self-center w-full mt-1">
                 {project.note}
               </p>
             )}
@@ -303,15 +358,19 @@ export default function Projects() {
       <section
         id="projects"
         className="min-h-screen bg-deep border-t border-green-core/8
-                   px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20"
+                   px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
+                   relative overflow-hidden"
       >
+        {/* Scan line */}
+        <div className="scan-overlay" />
+
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-12 sm:mb-14"
+          className="mb-12 sm:mb-14 relative z-10"
         >
           <div className="eyebrow mb-3">Battle Log</div>
           <h2
@@ -320,8 +379,10 @@ export default function Projects() {
           >
             Missions Completed
           </h2>
-          <p className="text-text-secondary font-ui font-light mt-3 max-w-lg"
-             style={{ fontSize: "clamp(13px, 1.6vw, 15px)" }}>
+          <p
+            className="text-text-secondary font-ui font-light mt-3 max-w-lg"
+            style={{ fontSize: "clamp(13px, 1.6vw, 15px)" }}
+          >
             Ranked S → B. Every project is a real system built from scratch —
             not tutorials, not clones. Click any card for the full deep-dive.
           </p>
@@ -333,7 +394,7 @@ export default function Projects() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-wrap gap-3 mb-8"
+          className="flex flex-wrap gap-3 mb-8 relative z-10"
         >
           {(["S", "A", "B"] as Rank[]).map((r) => (
             <div key={r} className="flex items-center gap-2">
@@ -347,7 +408,7 @@ export default function Projects() {
 
         {/* Projects grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[1px]
-                        bg-green-core/5">
+                        bg-green-core/5 relative z-10">
           {projects.map((project, i) => (
             <ProjectCard
               key={project.id}
@@ -365,7 +426,7 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="font-mono text-[9px] tracking-[3px] uppercase text-text-dim
-                     mt-8 text-right"
+                     mt-8 text-right relative z-10"
         >
           {projects.filter((p) => !p.wip).length} shipped ·{" "}
           {projects.filter((p) => p.wip).length} in progress
@@ -375,10 +436,7 @@ export default function Projects() {
       {/* Modal */}
       <AnimatePresence>
         {selected && (
-          <ProjectModal
-            project={selected}
-            onClose={() => setSelected(null)}
-          />
+          <ProjectModal project={selected} onClose={() => setSelected(null)} />
         )}
       </AnimatePresence>
 
