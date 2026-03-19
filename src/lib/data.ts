@@ -22,12 +22,13 @@ export const projects: Project[] = [
     id: "vtu",
     num: "002",
     rank: "S",
-    title: "VTU Smart Scheduler Chatbot",
+    title: "THE-VTU-BOT — AI Chatbot for VTU Students",
     overview:
-      "An end-to-end RAG system that transforms how VTU students access exam schedules and circulars — from 10 minutes of PDF hunting to under 5 seconds.",
-    detail: `The system auto-scrapes the VTU website on a 6-hour cron, extracts text from PDFs, runs spaCy NLP to identify schedule entities, converts them into vector embeddings stored in Pinecone, and retrieves them semantically when a student asks a question.\n\nLangChain routes the query to Groq's Llama 3, which generates a structured, human-readable answer. A PostgreSQL-backed notification system pushes Email and Telegram alerts the moment a new circular is indexed.\n\nWhy it's S-rank: 12 integrated components, ~147 hours of engineering, and a full production deployment pipeline.`,
-    tech: ["Python", "FastAPI", "LangChain", "Groq Llama 3", "Pinecone", "PostgreSQL", "spaCy", "BeautifulSoup", "React", "Tailwind CSS", "Docker"],
-    note: "⚠ Repo and deployment pending. Links will be updated post-launch.",
+      "An AI-powered RAG chatbot that auto-scrapes official VTU circulars and PDFs, indexes them into a vector database, and answers student questions in natural language — from PhD regulations to exam schedules, in seconds.",
+    detail: `The system runs a scheduled scraper (APScheduler) that hits the VTU website, extracts text from PDFs via pdfplumber + Tesseract OCR, and indexes chunks into Pinecone using fastembed ONNX embeddings.\n\nWhen a student asks a question, LangChain routes it through semantic retrieval from Pinecone into Groq's Llama 3.1, which generates a structured answer sourced directly from official documents. PostgreSQL + Redis handle session state and caching.\n\n**Why it's S-rank:** Scraping + OCR pipeline, embedding + vector search, LLM integration, scheduled background jobs, and full-stack Docker deployment — all working together. Hit 10+ non-trivial bugs during build (Python version conflicts, decommissioned LLM models, OOM on deployment, CORS, config caching). Built and fully deployed in one session.`,
+    tech: ["FastAPI", "PostgreSQL", "Redis", "Pinecone", "Groq Llama 3.1", "fastembed (ONNX)", "LangChain", "spaCy", "BeautifulSoup", "pdfplumber", "Tesseract OCR", "APScheduler", "React", "TypeScript", "Tailwind CSS", "Docker"],
+    github: "https://github.com/haricodes2970/THE-VTU-CHATBOT-",
+    live: "https://the-vtu-chatbot.vercel.app",
   },
   {
     id: "bookyourevent",
