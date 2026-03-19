@@ -65,7 +65,7 @@ export default function Navbar() {
                      hover:opacity-80 transition-all duration-200 group relative"
           style={{ textShadow: "0 0 24px rgba(0,255,106,0.35)" }}
         >
-          ⚔ SRIHARI
+          ⚔ SRIHARI PRASAD S
           <span
             className="absolute -bottom-px left-0 h-px bg-green-core
                        w-0 group-hover:w-full transition-all duration-300"

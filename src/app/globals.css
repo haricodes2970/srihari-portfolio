@@ -9,11 +9,68 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap");
 @import "../styles/animations.css";
 
-/* ── CSS VARIABLES ── */
+/* ── DESIGN TOKENS — ZORO MODE (default) ── */
 :root {
   --font-cinzel:          "Cinzel", serif;
   --font-rajdhani:        "Rajdhani", sans-serif;
   --font-share-tech-mono: "Share Tech Mono", monospace;
+
+  /* Backgrounds */
+  --color-void:    #040a06;
+  --color-deep:    #060d08;
+  --color-surface: #0a1510;
+  --color-card:    #0d1a12;
+  --color-card-h:  #112018;
+
+  /* Accent — neon green */
+  --color-accent:       #00ff6a;
+  --color-accent-mid:   #1aff7a;
+  --color-accent-dim:   #00c44f;
+  --color-accent-dark:  #007a30;
+  --color-accent-ghost: rgba(0,255,106,0.06);
+  --color-accent-glow:  rgba(0,255,106,0.18);
+
+  /* Text */
+  --color-text-primary:   #dff2e8;
+  --color-text-secondary: #7ab890;
+  --color-text-muted:     #6a9a7e;
+  --color-text-dim:       #4a7a60;
+
+  /* UI */
+  --eyebrow-color:  #00ff6a;
+  --scan-color:     rgba(0,255,106,0.45);
+  --scan-glow:      rgba(0,255,106,0.3);
+  --selection-bg:   #007a30;
+}
+
+/* ── CALM MODE — soft blue-slate theme ── */
+body.calm-mode {
+  /* Backgrounds — slightly blue-shifted, lighter */
+  --color-void:    #04080f;
+  --color-deep:    #060c18;
+  --color-surface: #091220;
+  --color-card:    #0c1828;
+  --color-card-h:  #101e30;
+
+  /* Accent — soft jade / sage green */
+  --color-accent:       #4ade80;
+  --color-accent-mid:   #6ee7a0;
+  --color-accent-dim:   #22c55e;
+  --color-accent-dark:  #15803d;
+  --color-accent-ghost: rgba(74,222,128,0.06);
+  --color-accent-glow:  rgba(74,222,128,0.15);
+
+  /* Text — slightly warmer/brighter */
+  --color-text-primary:   #e8f4ff;
+  --color-text-secondary: #7db8cc;
+  --color-text-muted:     #5a8a9e;
+  --color-text-dim:       #3f6070;
+
+  /* UI */
+  --eyebrow-color:  #4ade80;
+  --scan-color:     rgba(74,222,128,0.35);
+  --scan-glow:      rgba(74,222,128,0.2);
+  --selection-bg:   #15803d;
 }
 
 /* ── BASE RESET ── */
@@ -29,21 +86,17 @@ html {
 }
 
 body {
-  background-color: #040a06;
-  color: #dff2e8;
+  background-color: var(--color-void);
+  color: var(--color-text-primary);
   font-family: var(--font-rajdhani);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   min-height: 100vh;
-}
-
-/* Calm mode overrides */
-body.calm-mode {
-  --green-core: #4ade80;
+  transition: background-color 0.6s ease, color 0.4s ease;
 }
 
 ::selection {
-  background: #007a30;
+  background: var(--selection-bg);
   color: #fff;
 }
 
@@ -64,14 +117,14 @@ body.calm-mode {
   font-size: 10px;
   letter-spacing: 5px;
   text-transform: uppercase;
-  color: #00ff6a;
+  color: var(--eyebrow-color);
 }
 .eyebrow::before {
   content: '';
   display: block;
   width: 28px;
   height: 1px;
-  background: #00ff6a;
+  background: var(--eyebrow-color);
 }
 
 /* Reveal animation */
@@ -104,17 +157,17 @@ body.calm-mode {
 .shimmer-text {
   background: linear-gradient(
     90deg,
-    #00ff6a 0%,
-    #80ffb4 30%,
-    #ffffff 50%,
-    #80ffb4 70%,
-    #00ff6a 100%
+    var(--color-accent) 0%,
+    #fff 40%,
+    var(--color-accent-mid) 55%,
+    #fff 70%,
+    var(--color-accent) 100%
   );
-  background-size: 200% auto;
+  background-size: 250% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 3.5s linear infinite;
+  animation: shimmer 4s linear infinite;
 }
 
 /* ── GLITCH TEXT ── */
@@ -125,30 +178,25 @@ body.calm-mode {
 .glitch-text::after {
   content: attr(data-text);
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background: transparent;
+  opacity: 0;
 }
 .glitch-text::before {
-  color: #00ff6a;
-  opacity: 0;
+  color: var(--color-accent);
   animation: glitch 4s infinite 1s;
   text-shadow: 2px 0 #ff005e;
 }
 .glitch-text::after {
-  color: #00ff6a;
-  opacity: 0;
+  color: var(--color-accent);
   animation: glitch 4s infinite 1.2s reverse;
   text-shadow: -2px 0 #00cfff;
 }
 .glitch-text:hover::before,
-.glitch-text:hover::after {
-  opacity: 0.6;
-}
+.glitch-text:hover::after { opacity: 0.6; }
 
-/* ── SCAN LINE OVERLAY (decorative) ── */
+/* ── SCAN LINE OVERLAY ── */
 .scan-overlay {
   position: absolute;
   inset: 0;
@@ -158,19 +206,18 @@ body.calm-mode {
 .scan-overlay::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 0; right: 0;
   height: 2px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(0,255,106,0.15) 20%,
-    rgba(0,255,106,0.5) 50%,
-    rgba(0,255,106,0.15) 80%,
+    var(--scan-color) 30%,
+    var(--scan-glow)  50%,
+    var(--scan-color) 70%,
     transparent 100%
   );
-  animation: scanLine 8s ease-in-out infinite;
-  box-shadow: 0 0 12px rgba(0,255,106,0.4);
+  animation: scanLine 9s ease-in-out infinite;
+  box-shadow: 0 0 12px var(--scan-glow);
 }
 
 /* ── PORTRAIT GLOW ── */
@@ -182,7 +229,7 @@ body.calm-mode {
 .ambient-dot {
   position: absolute;
   border-radius: 50%;
-  background: #00ff6a;
+  background: var(--color-accent);
   pointer-events: none;
   animation: ambientFloat var(--dur, 6s) ease-in-out infinite var(--delay, 0s);
 }
@@ -204,28 +251,43 @@ body.calm-mode {
 .card-shine::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0,255,106,0.04),
-    transparent
-  );
-  transition: left 0.5s ease;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,255,106,0.035), transparent);
+  transition: left 0.55s ease;
   pointer-events: none;
   z-index: 1;
 }
-.card-shine:hover::before {
-  left: 150%;
+.card-shine:hover::before { left: 150%; }
+
+/* ── CALM MODE — calm card shine uses blue tint ── */
+body.calm-mode .card-shine::before {
+  background: linear-gradient(90deg, transparent, rgba(74,222,128,0.03), transparent);
 }
 
 /* ── NEON BORDER GLOW on focus ── */
 input:focus,
 textarea:focus {
   outline: none;
-  box-shadow: 0 0 0 1px rgba(0,255,106,0.4),
-              0 0 16px rgba(0,255,106,0.12);
+  border-color: color-mix(in srgb, var(--color-accent) 40%, transparent) !important;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 30%, transparent),
+              0 0 16px color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+/* ── CALM MODE — reduce ambient particle glow ── */
+body.calm-mode .ambient-dot {
+  background: var(--color-accent);
+  opacity: 0.06 !important;
+  box-shadow: none !important;
+}
+
+/* ── CALM MODE — soften scan line ── */
+body.calm-mode .scan-overlay::after {
+  opacity: 0.5;
+}
+
+/* ── CALM MODE — theme transition ── */
+body,
+body.calm-mode {
+  transition: background-color 0.6s ease, color 0.4s ease;
 }

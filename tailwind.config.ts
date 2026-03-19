@@ -9,24 +9,29 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        void:    "#040a06",
-        deep:    "#060d08",
-        surface: "#0a1510",
-        card:    "#0d1a12",
-        "card-h":"#112018",
+        // ── Backgrounds (CSS-var driven for calm-mode swap) ──
+        void:    "var(--color-void,    #040a06)",
+        deep:    "var(--color-deep,    #060d08)",
+        surface: "var(--color-surface, #0a1510)",
+        card:    "var(--color-card,    #0d1a12)",
+        "card-h":"var(--color-card-h,  #112018)",
+
+        // ── Accent ───────────────────────────────────────────
         green: {
-          core:  "#00ff6a",
-          mid:   "#1aff7a",
-          dim:   "#00c44f",
-          dark:  "#007a30",
-          ghost: "rgba(0,255,106,0.06)",
-          glow:  "rgba(0,255,106,0.18)",
+          core:  "var(--color-accent,       #00ff6a)",
+          mid:   "var(--color-accent-mid,   #1aff7a)",
+          dim:   "var(--color-accent-dim,   #00c44f)",
+          dark:  "var(--color-accent-dark,  #007a30)",
+          ghost: "var(--color-accent-ghost, rgba(0,255,106,0.06))",
+          glow:  "var(--color-accent-glow,  rgba(0,255,106,0.18))",
         },
+
+        // ── Text ─────────────────────────────────────────────
         text: {
-          primary:   "#dff2e8",
-          secondary: "#7ab890",
-          muted:     "#3a6648",
-          dim:       "#1c3326",
+          primary:   "var(--color-text-primary,   #dff2e8)",
+          secondary: "var(--color-text-secondary, #7ab890)",
+          muted:     "var(--color-text-muted,     #6a9a7e)", // was #3a6648 — raised
+          dim:       "var(--color-text-dim,       #4a7a60)", // was #1c3326 — raised
         },
       },
       fontFamily: {
