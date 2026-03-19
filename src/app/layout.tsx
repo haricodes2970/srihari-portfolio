@@ -9,10 +9,11 @@ import Navbar        from "@/components/shared/Navbar";
 import Footer        from "@/components/shared/Footer";
 import ScrollProgress from "@/components/shared/ScrollProgress";
 import SectionDots   from "@/components/shared/SectionDots";
-import Cursor        from "@/components/effects/Cursor";
-import SwordSlash    from "@/components/effects/SwordSlash";
-import EasterEgg     from "@/components/effects/EasterEgg";
-import LoadingScreen from "@/components/effects/LoadingScreen";
+import Cursor         from "@/components/effects/Cursor";
+import ParticleCanvas from "@/components/effects/ParticleCanvas";
+import SwordSlash     from "@/components/effects/SwordSlash";
+import EasterEgg      from "@/components/effects/EasterEgg";
+import LoadingScreen  from "@/components/effects/LoadingScreen";
 
 export const metadata: Metadata = {
   title: "Srihari Prasad S — You Think, I Make It Real",
@@ -38,6 +39,7 @@ export default function RootLayout({
         {/* Global effects — always mounted */}
         <LoadingScreen />
         <Cursor />
+        <ParticleCanvas />
         <SwordSlash />
         <EasterEgg />
         <ScrollProgress />
