@@ -44,7 +44,7 @@ export default function Contact() {
                    flex flex-col justify-center relative overflow-hidden"
       >
         {/* Particle mesh — cursor-reactive node network */}
-        <ParticleMesh count={70} connectDist={160} nodeColor="0,255,106" lineColor="0,255,80" opacity={0.52} />
+        <ParticleMesh count={75} connectDist={165} nodeColor="0,255,106" lineColor="0,255,80" opacity={0.78} />
         {/* Scan line */}
         <div className="scan-overlay" />
 

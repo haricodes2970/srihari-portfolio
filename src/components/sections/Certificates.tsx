@@ -35,7 +35,7 @@ export default function Certificates() {
                    relative overflow-hidden"
       >
         {/* Particle mesh — cursor-reactive node network */}
-        <ParticleMesh count={65} connectDist={140} nodeColor="0,255,106" lineColor="0,255,150" opacity={0.48} />
+        <ParticleMesh count={70} connectDist={155} nodeColor="0,255,106" lineColor="0,255,150" opacity={0.74} />
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

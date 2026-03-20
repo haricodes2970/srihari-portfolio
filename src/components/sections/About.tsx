@@ -107,7 +107,7 @@ export default function About() {
         <TwoMoons />
 
         {/* Particle mesh — cursor-reactive floating node network */}
-        <ParticleMesh count={70} connectDist={155} opacity={0.48} />
+        <ParticleMesh count={75} connectDist={160} opacity={0.72} />
 
         {/* Scan line */}
         <div className="scan-overlay" />

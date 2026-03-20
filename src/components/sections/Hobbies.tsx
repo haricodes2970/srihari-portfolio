@@ -15,7 +15,7 @@ export default function Hobbies() {
                    relative overflow-hidden"
       >
         {/* Particle mesh — cursor-reactive floating node network */}
-        <ParticleMesh count={60} connectDist={140} opacity={0.45} />
+        <ParticleMesh count={70} connectDist={155} opacity={0.72} />
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

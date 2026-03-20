@@ -256,7 +256,7 @@ export default function Skills() {
         className="min-h-screen bg-void border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden">
         {/* Particle mesh — cursor-reactive node network */}
-        <ParticleMesh count={75} connectDist={145} nodeColor="0,255,106" lineColor="0,255,106" opacity={0.5} />
+        <ParticleMesh count={80} connectDist={160} nodeColor="0,255,106" lineColor="0,255,106" opacity={0.75} />
         <div className="scan-overlay" />
 
         {/* Header */}

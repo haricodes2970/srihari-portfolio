@@ -363,7 +363,7 @@ export default function Projects() {
                    relative overflow-hidden"
       >
         {/* Particle mesh — cursor-reactive node network */}
-        <ParticleMesh count={90} connectDist={165} nodeColor="0,255,106" lineColor="40,255,130" opacity={0.5} />
+        <ParticleMesh count={90} connectDist={165} nodeColor="0,255,106" lineColor="40,255,130" opacity={0.78} />
         {/* Scan line */}
         <div className="scan-overlay" />
 

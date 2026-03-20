@@ -81,7 +81,7 @@ export default function Hero() {
         <TwoMoons />
 
         {/* Particle mesh — cursor-reactive floating node network */}
-        <ParticleMesh count={85} connectDist={150} opacity={0.55} />
+        <ParticleMesh count={90} connectDist={160} opacity={0.8} />
 
         {/* ── Grid background ── */}
         <div
