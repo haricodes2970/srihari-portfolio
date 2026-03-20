@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { SITE_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/constants";
+import CyberCrackBackground from "@/components/effects/CyberCrackBackground";
 
 const fadeUp = (delay = 0) => ({
   initial:      { opacity: 0, y: 20 },
@@ -38,10 +39,12 @@ export default function Contact() {
     <>
       <section
         id="contact"
-        className="min-h-screen bg-void border-t border-green-core/8
+        className="green-mesh min-h-screen bg-void border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    flex flex-col justify-center relative overflow-hidden"
       >
+        {/* Cyberpunk crack lines — SVG draw-on + glitch flicker */}
+        <CyberCrackBackground />
         {/* Scan line */}
         <div className="scan-overlay" />
 
