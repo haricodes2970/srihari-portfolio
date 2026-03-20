@@ -3,9 +3,12 @@
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { hobbies } from "@/lib/data";
-import ParticleMesh from "@/components/effects/ParticleMesh";
+import IsoFluxBg from "@/components/effects/IsoFluxBg";
+import { useUIStore } from "@/store/uiStore";
 
 export default function Hobbies() {
+  const mode   = useUIStore((s) => s.mode);
+  const isCalm = mode === "calm";
   return (
     <>
       <section
@@ -14,8 +17,8 @@ export default function Hobbies() {
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    relative overflow-hidden"
       >
-        {/* Particle mesh — cursor-reactive floating node network */}
-        <ParticleMesh count={70} connectDist={155} opacity={0.72} />
+        {/* Iso flux background — floating isometric cubes, cursor attraction */}
+        <IsoFluxBg isCalm={isCalm} />
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
