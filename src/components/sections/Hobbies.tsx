@@ -3,19 +3,19 @@
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { hobbies } from "@/lib/data";
-import IsoFluxCanvas from "@/components/effects/IsoFluxCanvas";
+import ParticleMesh from "@/components/effects/ParticleMesh";
 
 export default function Hobbies() {
   return (
     <>
       <section
         id="hobbies"
-        className="green-mesh min-h-screen bg-deep border-t border-green-core/8
+        className="min-h-screen bg-deep border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    relative overflow-hidden"
       >
-        {/* Isometric flux — floating cubes + mouse parallax */}
-        <IsoFluxCanvas />
+        {/* Particle mesh — cursor-reactive floating node network */}
+        <ParticleMesh count={60} connectDist={140} opacity={0.45} />
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

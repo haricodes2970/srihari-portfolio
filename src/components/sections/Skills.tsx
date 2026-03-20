@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { skills } from "@/lib/data";
 import type { Skill, SkillCategory } from "@/types";
-import MatrixCanvas from "@/components/effects/MatrixCanvas";
+import ParticleMesh from "@/components/effects/ParticleMesh";
 
 const TABS: { label: string; value: SkillCategory | "all" }[] = [
   { label: "All Styles",  value: "all"      },
@@ -253,10 +253,10 @@ export default function Skills() {
   return (
     <>
       <section id="skills"
-        className="green-mesh min-h-screen bg-void border-t border-green-core/8
+        className="min-h-screen bg-void border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden">
-        {/* Matrix — falling katakana + GSAP scan line */}
-        <MatrixCanvas />
+        {/* Particle mesh — cursor-reactive node network */}
+        <ParticleMesh count={75} connectDist={145} nodeColor="0,255,106" lineColor="0,255,106" opacity={0.5} />
         <div className="scan-overlay" />
 
         {/* Header */}
