@@ -6,7 +6,7 @@ import Footer from "@/components/shared/Footer";
 import { projects } from "@/lib/data";
 import { RANK_COLORS } from "@/lib/constants";
 import type { Project, Rank } from "@/types";
-import DataMeshCanvas from "@/components/effects/DataMeshCanvas";
+import ParticleMesh from "@/components/effects/ParticleMesh";
 
 // ── Rank badge ────────────────────────────────────────────
 function RankBadge({ rank }: { rank: Rank }) {
@@ -358,12 +358,12 @@ export default function Projects() {
     <>
       <section
         id="projects"
-        className="green-mesh min-h-screen bg-deep border-t border-green-core/8
+        className="min-h-screen bg-deep border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    relative overflow-hidden"
       >
-        {/* Data mesh — constellation node network */}
-        <DataMeshCanvas />
+        {/* Particle mesh — cursor-reactive node network */}
+        <ParticleMesh count={90} connectDist={165} nodeColor="0,255,106" lineColor="40,255,130" opacity={0.5} />
         {/* Scan line */}
         <div className="scan-overlay" />
 

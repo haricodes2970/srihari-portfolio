@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { SITE_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/constants";
-import CyberCrackBackground from "@/components/effects/CyberCrackBackground";
+import ParticleMesh from "@/components/effects/ParticleMesh";
 
 const fadeUp = (delay = 0) => ({
   initial:      { opacity: 0, y: 20 },
@@ -39,12 +39,12 @@ export default function Contact() {
     <>
       <section
         id="contact"
-        className="green-mesh min-h-screen bg-void border-t border-green-core/8
+        className="min-h-screen bg-void border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    flex flex-col justify-center relative overflow-hidden"
       >
-        {/* Cyberpunk crack lines — SVG draw-on + glitch flicker */}
-        <CyberCrackBackground />
+        {/* Particle mesh — cursor-reactive node network */}
+        <ParticleMesh count={70} connectDist={160} nodeColor="0,255,106" lineColor="0,255,80" opacity={0.52} />
         {/* Scan line */}
         <div className="scan-overlay" />
 
