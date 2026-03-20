@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { skills } from "@/lib/data";
 import type { Skill, SkillCategory } from "@/types";
+import MatrixCanvas from "@/components/effects/MatrixCanvas";
 
 const TABS: { label: string; value: SkillCategory | "all" }[] = [
   { label: "All Styles",  value: "all"      },
@@ -252,8 +253,10 @@ export default function Skills() {
   return (
     <>
       <section id="skills"
-        className="min-h-screen bg-void border-t border-green-core/8
+        className="green-mesh min-h-screen bg-void border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden">
+        {/* Matrix — falling katakana + GSAP scan line */}
+        <MatrixCanvas />
         <div className="scan-overlay" />
 
         {/* Header */}
