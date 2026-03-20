@@ -3,15 +3,19 @@
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { hobbies } from "@/lib/data";
+import IsoFluxCanvas from "@/components/effects/IsoFluxCanvas";
 
 export default function Hobbies() {
   return (
     <>
       <section
         id="hobbies"
-        className="min-h-screen bg-deep border-t border-green-core/8
-                   px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20"
+        className="green-mesh min-h-screen bg-deep border-t border-green-core/8
+                   px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
+                   relative overflow-hidden"
       >
+        {/* Isometric flux — floating cubes + mouse parallax */}
+        <IsoFluxCanvas />
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
