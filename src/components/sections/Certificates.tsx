@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
+import RisingStarsCanvas from "@/components/effects/RisingStarsCanvas";
 
 // ── Floating sword decoration ─────────────────────────────
 function FloatingSword({ delay = 0, height = 80 }: { delay?: number; height?: number }) {
@@ -29,9 +30,12 @@ export default function Certificates() {
     <>
       <section
         id="certificates"
-        className="min-h-screen bg-void border-t border-green-core/8
-                   px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20"
+        className="green-mesh min-h-screen bg-void border-t border-green-core/8
+                   px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
+                   relative overflow-hidden"
       >
+        {/* Rising star particles — GSAP spawn loop */}
+        <RisingStarsCanvas />
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
