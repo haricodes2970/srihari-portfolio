@@ -7,6 +7,8 @@ import { projects } from "@/lib/data";
 import { RANK_COLORS } from "@/lib/constants";
 import type { Project, Rank } from "@/types";
 import ParticleMesh from "@/components/effects/ParticleMesh";
+import PulseRingOverlay from "@/components/effects/PulseRingOverlay";
+import { useUIStore } from "@/store/uiStore";
 
 // ── Rank badge ────────────────────────────────────────────
 function RankBadge({ rank }: { rank: Rank }) {
@@ -353,6 +355,8 @@ function ProjectModal({
 // ── Main section ──────────────────────────────────────────
 export default function Projects() {
   const [selected, setSelected] = useState<Project | null>(null);
+  const mode   = useUIStore((s) => s.mode);
+  const isCalm = mode === "calm";
 
   return (
     <>
@@ -362,10 +366,17 @@ export default function Projects() {
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    relative overflow-hidden"
       >
-        {/* Particle mesh — cursor-reactive node network */}
-        <ParticleMesh count={90} connectDist={165} nodeColor="0,255,106" lineColor="40,255,130" opacity={0.78} />
-        {/* Scan line */}
-        <div className="scan-overlay" />
+        {/* Cyan ambient mesh — living data network, no cursor */}
+        <ParticleMesh
+          count={75}
+          connectDist={170}
+          nodeColor={isCalm ? "13,148,136" : "0,212,255"}
+          lineColor={isCalm ? "13,148,136" : "0,180,220"}
+          opacity={isCalm ? 0.5 : 0.68}
+          noCursor
+        />
+        {/* Pulse rings — data traveling through the mesh */}
+        <PulseRingOverlay isCalm={isCalm} count={5} />
 
         {/* Section header */}
         <motion.div
