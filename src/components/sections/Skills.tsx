@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { skills } from "@/lib/data";
 import type { Skill, SkillCategory } from "@/types";
-import ParticleMesh from "@/components/effects/ParticleMesh";
+import GreenCyberBg from "@/components/effects/GreenCyberBg";
+import { useUIStore } from "@/store/uiStore";
 
 const TABS: { label: string; value: SkillCategory | "all" }[] = [
   { label: "All Styles",  value: "all"      },
@@ -247,6 +248,8 @@ function SkillCard({ skill, delay, onClick }: {
 export default function Skills() {
   const [active,   setActive]   = useState<SkillCategory | "all">("all");
   const [selected, setSelected] = useState<Skill | null>(null);
+  const mode   = useUIStore((s) => s.mode);
+  const isCalm = mode === "calm";
 
   const filtered = active === "all" ? skills : skills.filter((s) => s.category === active);
 
@@ -255,9 +258,8 @@ export default function Skills() {
       <section id="skills"
         className="min-h-screen bg-void border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden">
-        {/* Particle mesh — cursor-reactive node network */}
-        <ParticleMesh count={80} connectDist={160} nodeColor="0,255,106" lineColor="0,255,106" opacity={0.75} />
-        <div className="scan-overlay" />
+        {/* Green cyber background — matrix rain + scan line + grid */}
+        <GreenCyberBg isCalm={isCalm} />
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
