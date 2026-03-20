@@ -23,6 +23,7 @@ interface ParticleMeshProps {
   connectDist?: number;   // max connection px
   speed?:       number;
   opacity?:     number;   // overall canvas opacity
+  noCursor?:    boolean;  // disable cursor interaction (ambient drift only)
 }
 
 export default function ParticleMesh({
@@ -32,6 +33,7 @@ export default function ParticleMesh({
   connectDist = 165,
   speed       = 1,
   opacity     = 0.75,
+  noCursor    = false,
 }: ParticleMeshProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouse     = useRef({ x: -9999, y: -9999 });
@@ -92,6 +94,7 @@ export default function ParticleMesh({
 
     // ── Mouse ──────────────────────────────────────────────
     const onMove  = (e: MouseEvent) => {
+      if (noCursor) return;
       const r = canvas.getBoundingClientRect();
       mouse.current = { x: e.clientX - r.left, y: e.clientY - r.top };
     };
@@ -207,7 +210,7 @@ export default function ParticleMesh({
       window.removeEventListener("mousemove",  onMove);
       window.removeEventListener("mouseleave", onLeave);
     };
-  }, [nodeColor, lineColor, count, connectDist, speed]);
+  }, [nodeColor, lineColor, count, connectDist, speed, noCursor]);
 
   return (
     <canvas

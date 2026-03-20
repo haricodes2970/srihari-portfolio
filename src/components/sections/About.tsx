@@ -9,6 +9,7 @@ import Footer from "@/components/shared/Footer";
 import TwoMoons from "@/components/effects/TwoMoons";
 import ParticleMesh from "@/components/effects/ParticleMesh";
 import { GITHUB_URL, LINKEDIN_URL, SITE_EMAIL } from "@/lib/constants";
+import { useUIStore } from "@/store/uiStore";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,6 +41,9 @@ export default function About() {
   const portraitRef = useRef<HTMLDivElement>(null);
   const kanjiRefs   = useRef<(HTMLDivElement | null)[]>([]);
   const quoteRef    = useRef<HTMLQuoteElement>(null);
+  const headingRef  = useRef<HTMLHeadingElement>(null);
+  const mode        = useUIStore((s) => s.mode);
+  const isCalm      = mode === "calm";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -70,6 +74,55 @@ export default function About() {
             scrub:   1.5,
           },
         });
+      }
+
+      // ── Jolly Roger watermark entrance ─────────────────
+      const jolly = sectionRef.current?.querySelector(".jolly-roger");
+      if (jolly) {
+        gsap.fromTo(jolly,
+          { opacity: 0, scale: 0.85 },
+          { opacity: 0.045, scale: 1, duration: 2, ease: "power2.out", delay: 0.5 }
+        );
+      }
+
+      // ── Wave animation (bottom SVG paths) ──────────────
+      const wave1 = sectionRef.current?.querySelector(".wave1");
+      const wave2 = sectionRef.current?.querySelector(".wave2");
+      const wave3 = sectionRef.current?.querySelector(".wave3");
+      if (wave1) gsap.to(wave1, { x: -80,  duration: 7,  repeat: -1, yoyo: true, ease: "sine.inOut" });
+      if (wave2) gsap.to(wave2, { x:  60,  duration: 9,  repeat: -1, yoyo: true, ease: "sine.inOut", delay: 1 });
+      if (wave3) gsap.to(wave3, { x: -40,  duration: 11, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 2 });
+
+      // ── "Who Am I" — letter-by-letter Wanted reveal ────
+      if (headingRef.current) {
+        const text = headingRef.current.textContent || "";
+        headingRef.current.innerHTML = text
+          .split("")
+          .map((c) => c === " " ? " " : `<span class="h-char" style="display:inline-block">${c}</span>`)
+          .join("");
+        const chars = headingRef.current.querySelectorAll(".h-char");
+        gsap.fromTo(chars,
+          { opacity: 0, y: 14 },
+          {
+            opacity: 1, y: 0,
+            duration: 0.5,
+            stagger: 0.04,
+            ease: "power2.out",
+            delay: 0.3,
+            onComplete() {
+              // Stamp jitter — wanted poster feel
+              gsap.to(chars, {
+                x: () => (Math.random() - 0.5) * 3,
+                y: () => (Math.random() - 0.5) * 3,
+                duration: 0.08,
+                stagger: 0.01,
+                ease: "none",
+                yoyo: true,
+                repeat: 2,
+              });
+            },
+          }
+        );
       }
 
       // ── Quote reveal with clip-path ────────────────────
@@ -106,8 +159,77 @@ export default function About() {
         {/* Two moons — top left, dark mode only */}
         <TwoMoons />
 
-        {/* Particle mesh — cursor-reactive floating node network */}
-        <ParticleMesh count={75} connectDist={160} opacity={0.72} />
+        {/* Ambient cyan mesh — non-cursor-reactive drift */}
+        <ParticleMesh
+          count={75}
+          connectDist={165}
+          nodeColor={isCalm ? "13,148,136" : "0,212,255"}
+          lineColor={isCalm ? "13,148,136" : "0,180,220"}
+          opacity={isCalm ? 0.55 : 0.70}
+          noCursor
+        />
+
+        {/* ── Jolly Roger watermark — faint skull silhouette ── */}
+        <div
+          aria-hidden
+          className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
+        >
+          <svg
+            viewBox="0 0 200 200"
+            className="w-[320px] h-[320px] sm:w-[400px] sm:h-[400px] opacity-0 jolly-roger"
+            style={{ filter: isCalm ? "none" : "drop-shadow(0 0 20px rgba(0,212,255,0.2))" }}
+          >
+            {/* Skull outline */}
+            <ellipse cx="100" cy="85" rx="52" ry="48" fill="none"
+              stroke={isCalm ? "rgba(13,148,136,0.08)" : "rgba(0,212,255,0.06)"} strokeWidth="2" />
+            {/* Eye sockets */}
+            <ellipse cx="82"  cy="80" rx="12" ry="13"
+              fill={isCalm ? "rgba(13,148,136,0.06)" : "rgba(0,212,255,0.05)"} />
+            <ellipse cx="118" cy="80" rx="12" ry="13"
+              fill={isCalm ? "rgba(13,148,136,0.06)" : "rgba(0,212,255,0.05)"} />
+            {/* Nose hole */}
+            <ellipse cx="100" cy="96" rx="6" ry="7"
+              fill={isCalm ? "rgba(13,148,136,0.05)" : "rgba(0,212,255,0.04)"} />
+            {/* Teeth */}
+            {[74, 84, 94, 104, 114, 124].map((x) => (
+              <rect key={x} x={x} y="117" width="8" height="10" rx="1"
+                fill={isCalm ? "rgba(13,148,136,0.07)" : "rgba(0,212,255,0.05)"} />
+            ))}
+            {/* Crossbones */}
+            <line x1="30" y1="145" x2="170" y2="175" stroke={isCalm ? "rgba(13,148,136,0.06)" : "rgba(0,212,255,0.05)"} strokeWidth="6" strokeLinecap="round" />
+            <line x1="170" y1="145" x2="30" y2="175" stroke={isCalm ? "rgba(13,148,136,0.06)" : "rgba(0,212,255,0.05)"} strokeWidth="6" strokeLinecap="round" />
+            {/* Straw hat brim */}
+            <ellipse cx="100" cy="42" rx="70" ry="10" fill="none"
+              stroke={isCalm ? "rgba(13,148,136,0.07)" : "rgba(0,212,255,0.06)"} strokeWidth="2.5" />
+            <ellipse cx="100" cy="37" rx="38" ry="18" fill="none"
+              stroke={isCalm ? "rgba(13,148,136,0.07)" : "rgba(0,212,255,0.06)"} strokeWidth="2" />
+          </svg>
+        </div>
+
+        {/* ── Bottom wave — Going Merry ocean ── */}
+        <div
+          aria-hidden
+          className="absolute bottom-0 left-0 right-0 pointer-events-none z-0 overflow-hidden"
+          style={{ height: 90 }}
+        >
+          <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="w-full h-full">
+            <path
+              className="wave1"
+              d="M0,55 C240,20 480,80 720,50 C960,20 1200,75 1440,45 L1440,90 L0,90 Z"
+              fill={isCalm ? "rgba(180,220,210,0.18)" : "rgba(0,70,90,0.35)"}
+            />
+            <path
+              className="wave2"
+              d="M0,68 C200,40 400,75 600,58 C800,40 1000,72 1200,55 C1300,46 1380,60 1440,52 L1440,90 L0,90 Z"
+              fill={isCalm ? "rgba(130,200,190,0.12)" : "rgba(0,50,70,0.25)"}
+            />
+            <path
+              className="wave3"
+              d="M0,78 C300,60 600,82 900,68 C1100,58 1300,74 1440,65 L1440,90 L0,90 Z"
+              fill={isCalm ? "rgba(100,180,170,0.10)" : "rgba(0,35,55,0.20)"}
+            />
+          </svg>
+        </div>
 
         {/* Scan line */}
         <div className="scan-overlay" />
@@ -146,8 +268,11 @@ export default function About() {
         {/* Section header */}
         <motion.div {...fadeUp(0)} className="mb-12 sm:mb-16 relative z-10">
           <div className="eyebrow mb-3">Origin Arc</div>
-          <h2 className="font-display font-bold text-text-primary leading-tight"
-              style={{ fontSize: "clamp(28px, 5vw, 54px)" }}>
+          <h2
+            ref={headingRef}
+            className="font-display font-bold text-text-primary leading-tight"
+            style={{ fontSize: "clamp(28px, 5vw, 54px)" }}
+          >
             Who Am I
           </h2>
         </motion.div>
