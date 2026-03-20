@@ -53,10 +53,12 @@ export default function CyberCrackBackground() {
     if (!pref.matches && glitchRef.current) {
       const glitch = () => {
         if (!glitchRef.current) return;
-        gsap.timeline({ onComplete: () => gsap.delayedCall(2.5 + Math.random() * 4.5, glitch) })
+        gsap.timeline({
+          onComplete: () => { gsap.delayedCall(2.5 + Math.random() * 4.5, glitch); },
+        })
           .to(glitchRef.current, { x: (Math.random() - 0.5) * 10, skewX: (Math.random() - 0.5) * 2, opacity: 0.09, duration: 0.06, ease: "none" })
-          .to(glitchRef.current, { x: -(Math.random()) * 6,        skewX: 0,                          opacity: 0.05, duration: 0.06, ease: "none" })
-          .to(glitchRef.current, { x: 0,                           skewX: 0,                          opacity: 0.05, duration: 0.08, ease: "none" });
+          .to(glitchRef.current, { x: -(Math.random()) * 6,        skewX: 0,                         opacity: 0.05, duration: 0.06, ease: "none" })
+          .to(glitchRef.current, { x: 0,                           skewX: 0,                         opacity: 0.05, duration: 0.08, ease: "none" });
       };
       gsap.delayedCall(1.8, glitch);
     }
