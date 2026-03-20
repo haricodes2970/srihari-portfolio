@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
-import ParticleMesh from "@/components/effects/ParticleMesh";
+import RisingStarsBg from "@/components/effects/RisingStarsBg";
+import { useUIStore } from "@/store/uiStore";
 
 // ── Floating sword decoration ─────────────────────────────
 function FloatingSword({ delay = 0, height = 80 }: { delay?: number; height?: number }) {
@@ -26,6 +27,8 @@ function FloatingSword({ delay = 0, height = 80 }: { delay?: number; height?: nu
 }
 
 export default function Certificates() {
+  const mode   = useUIStore((s) => s.mode);
+  const isCalm = mode === "calm";
   return (
     <>
       <section
@@ -34,8 +37,8 @@ export default function Certificates() {
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    relative overflow-hidden"
       >
-        {/* Particle mesh — cursor-reactive node network */}
-        <ParticleMesh count={70} connectDist={155} nodeColor="0,255,106" lineColor="0,255,150" opacity={0.74} />
+        {/* Rising green stars — ambient floating particles */}
+        <RisingStarsBg isCalm={isCalm} />
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
