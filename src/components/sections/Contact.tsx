@@ -4,7 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { SITE_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/constants";
-import ParticleMesh from "@/components/effects/ParticleMesh";
+import CyberpunkCrackBg from "@/components/effects/CyberpunkCrackBg";
+import { useUIStore } from "@/store/uiStore";
 
 const fadeUp = (delay = 0) => ({
   initial:      { opacity: 0, y: 20 },
@@ -23,6 +24,8 @@ export default function Contact() {
   const [email,   setEmail]   = useState("");
   const [message, setMessage] = useState("");
   const [sent,    setSent]    = useState(false);
+  const mode   = useUIStore((s) => s.mode);
+  const isCalm = mode === "calm";
 
   const handleSubmit = () => {
     if (!name.trim() || !message.trim()) return;
@@ -43,10 +46,8 @@ export default function Contact() {
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    flex flex-col justify-center relative overflow-hidden"
       >
-        {/* Particle mesh — cursor-reactive node network */}
-        <ParticleMesh count={75} connectDist={165} nodeColor="0,255,106" lineColor="0,255,80" opacity={0.78} />
-        {/* Scan line */}
-        <div className="scan-overlay" />
+        {/* Cyberpunk crack background — distorted mesh + cracks + glitch */}
+        <CyberpunkCrackBg isCalm={isCalm} />
 
         {/* Section header */}
         <motion.div {...fadeUp(0)} className="mb-12 sm:mb-16 relative z-10">
