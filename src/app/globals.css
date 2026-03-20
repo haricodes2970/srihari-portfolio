@@ -306,3 +306,34 @@ body,
 body.calm-mode {
   transition: background-color 0.6s ease, color 0.4s ease;
 }
+
+/* ══════════════════════════════════════════════
+   GREEN MESH — shared base overlay for all sections
+   Apply .green-mesh to any section wrapper.
+   Creates a subtle green wireframe grid behind content.
+   ══════════════════════════════════════════════ */
+.green-mesh {
+  position: relative;
+  overflow: hidden;
+}
+.green-mesh::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  /* Green dot grid — understated, reads as depth not distraction */
+  background-image:
+    radial-gradient(circle, rgba(0,255,106,0.18) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.25;
+}
+/* content must sit above the mesh */
+.green-mesh > * { position: relative; z-index: 2; }
+
+/* calm/light mode: gold mesh instead of green */
+body.calm-mode .green-mesh::before {
+  background-image:
+    radial-gradient(circle, rgba(212,160,23,0.2) 1px, transparent 1px);
+  opacity: 0.18;
+}

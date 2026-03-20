@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Footer from "@/components/shared/Footer";
 import TwoMoons from "@/components/effects/TwoMoons";
+import OceanWaves from "@/components/effects/OceanWaves";
 
 const fadeUp = (delay = 0) => ({
   initial:    { opacity: 0, y: 20 },
@@ -73,11 +74,14 @@ export default function Hero() {
     <>
       <section
         id="hero"
-        className="relative h-screen min-h-[600px] flex flex-col items-center
+        className="green-mesh relative h-screen min-h-[600px] flex flex-col items-center
                    justify-center overflow-hidden text-center px-5 sm:px-8"
       >
         {/* Two moons — dark mode only */}
         <TwoMoons />
+
+        {/* Ocean waves — GSAP animated, bottom of section */}
+        <OceanWaves />
 
         {/* ── Grid background ── */}
         <div

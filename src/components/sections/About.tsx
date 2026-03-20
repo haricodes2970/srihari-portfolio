@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Footer from "@/components/shared/Footer";
 import TwoMoons from "@/components/effects/TwoMoons";
+import OceanWaves from "@/components/effects/OceanWaves";
 import { GITHUB_URL, LINKEDIN_URL, SITE_EMAIL } from "@/lib/constants";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -98,12 +99,15 @@ export default function About() {
       <section
         ref={sectionRef}
         id="about"
-        className="min-h-screen bg-deep border-t border-green-core/8
+        className="green-mesh min-h-screen bg-deep border-t border-green-core/8
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    relative overflow-hidden"
       >
         {/* Two moons — top left, dark mode only */}
         <TwoMoons />
+
+        {/* Ocean waves — GSAP animated, bottom of section */}
+        <OceanWaves />
 
         {/* Scan line */}
         <div className="scan-overlay" />
