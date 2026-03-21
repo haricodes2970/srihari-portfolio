@@ -2,174 +2,163 @@
 
 > "You Think, I Make It Real" — Thinking is Limitless
 
----
-
-## 🧱 Tech Stack
-
-| Layer       | Technology                        |
-|-------------|-----------------------------------|
-| Framework   | Next.js 15 (App Router)           |
-| Language    | TypeScript                        |
-| Styling     | Tailwind CSS                      |
-| Animations  | Framer Motion + GSAP              |
-| State       | Zustand                           |
-| Icons       | Lucide React                      |
-| Deployment  | Vercel                            |
+**Live:** https://srihari-portfolio-indol.vercel.app
 
 ---
 
-## 🗂 Project Structure
+## Tech Stack
+
+| Layer       | Technology                              |
+|-------------|-----------------------------------------|
+| Framework   | Next.js 15 (App Router)                 |
+| Language    | TypeScript                              |
+| Styling     | Tailwind CSS + CSS Variables            |
+| Animations  | GSAP 3 + ScrollTrigger + Framer Motion  |
+| State       | Zustand (persisted mode preference)     |
+| Deployment  | Vercel (auto-deploy on push to main)    |
+
+---
+
+## Pages & Routes
+
+| Route          | Section       | Background Effect                                     |
+|----------------|---------------|-------------------------------------------------------|
+| `/`            | Home (Hero)   | Green particle mesh — cursor-reactive                 |
+| `/about`       | About         | Cyan ambient mesh + Jolly Roger watermark + ocean waves |
+| `/skills`      | Skills        | Matrix rain + scan line + diagonal grid               |
+| `/projects`    | Projects      | Cyan data mesh (noCursor) + expanding pulse rings     |
+| `/ai-toolkit`  | AI Toolkit    | Blue ambient mesh — 17 task cards + modals            |
+| `/certificates`| Certificates  | Rising green star particles                           |
+| `/hobbies`     | Hobbies       | Isometric cube flux — cursor attraction               |
+| `/contact`     | Contact       | Cyberpunk crack mesh + SVG cracks + glitch + CRT      |
+
+---
+
+## Project Structure
 
 ```
 src/
-├── app/                    # Next.js App Router pages
-│   ├── layout.tsx          # Root layout (nav, cursor, effects)
-│   ├── page.tsx            # Home (Hero)
+├── app/
+│   ├── layout.tsx              # Root layout (Navbar, cursor, effects, sound)
+│   ├── page.tsx                # Home → Hero.tsx
 │   ├── about/page.tsx
 │   ├── skills/page.tsx
 │   ├── projects/page.tsx
+│   ├── ai-toolkit/page.tsx     # NEW — AI Toolkit page
 │   ├── certificates/page.tsx
 │   ├── hobbies/page.tsx
 │   └── contact/page.tsx
 │
 ├── components/
-│   ├── sections/           # Full-page section components
+│   ├── sections/               # Full-page section components
 │   │   ├── Hero.tsx
-│   │   ├── About.tsx
-│   │   ├── Skills.tsx
-│   │   ├── Projects.tsx
-│   │   ├── Certificates.tsx
-│   │   ├── Hobbies.tsx
-│   │   └── Contact.tsx
+│   │   ├── About.tsx           # Cyan mesh + One Piece watermark + waves
+│   │   ├── Skills.tsx          # Matrix rain + scan line
+│   │   ├── Projects.tsx        # Cyan mesh + pulse rings
+│   │   ├── AIToolkit.tsx       # Task-based tool comparison page
+│   │   ├── Certificates.tsx    # Rising star particles
+│   │   ├── Hobbies.tsx         # Isometric cube flux
+│   │   └── Contact.tsx         # Cyberpunk crack glitch
 │   │
-│   ├── ui/                 # Reusable UI atoms
-│   │   ├── Button.tsx
-│   │   ├── Modal.tsx
-│   │   ├── Badge.tsx
-│   │   ├── Card.tsx
-│   │   ├── SectionHeader.tsx
-│   │   └── TechTag.tsx
-│   │
-│   ├── effects/            # Visual effects
-│   │   ├── Cursor.tsx      # Custom sword cursor
-│   │   ├── SwordSlash.tsx  # Page transition slash
-│   │   ├── LoadingScreen.tsx
-│   │   ├── EasterEgg.tsx   # Press Z → Three Sword Style
-│   │   ├── ParticleCanvas.tsx
+│   ├── effects/                # Visual background effects
+│   │   ├── ParticleMesh.tsx    # Cursor-reactive node network (base, used on Hero)
+│   │   ├── GreenCyberBg.tsx    # Matrix rain + scan line (Skills)
+│   │   ├── PulseRingOverlay.tsx# Expanding data pulse rings (Projects)
+│   │   ├── RisingStarsBg.tsx   # Rising star particles (Certificates)
+│   │   ├── IsoFluxBg.tsx       # Canvas isometric cubes w/ cursor attraction (Hobbies)
+│   │   ├── CyberpunkCrackBg.tsx# Mixed mesh + SVG cracks + glitch strips (Contact)
+│   │   ├── TwoMoons.tsx        # Golden dual-moon decoration (Hero + About, dark mode)
+│   │   ├── SoundSystem.tsx     # Click/slash audio on buttons & links
+│   │   ├── Cursor.tsx          # Custom sword cursor
+│   │   ├── SwordSlash.tsx      # Page transition slash effect
+│   │   ├── LoadingScreen.tsx   # Zoro loading animation
+│   │   ├── EasterEgg.tsx       # Press Z → Three Sword Style
 │   │   └── PageTransition.tsx
 │   │
-│   └── shared/             # Layout chrome
-│       ├── Navbar.tsx
+│   └── shared/
+│       ├── Navbar.tsx          # Sticky nav, reads NAV_ITEMS
 │       ├── Footer.tsx
-│       ├── ModeToggle.tsx
-│       ├── SectionDots.tsx
-│       └── ScrollProgress.tsx
-│
-├── hooks/
-│   ├── useCursor.ts
-│   ├── useMode.ts
-│   ├── useScrollProgress.ts
-│   ├── useReveal.ts
-│   ├── useEasterEgg.ts
-│   └── usePageTransition.ts
-│
-├── store/
-│   └── uiStore.ts          # Zustand: mode, loading, modal, slash
+│       ├── SectionDots.tsx     # Side dot navigation, reads NAV_ITEMS
+│       └── ModeApplicator.tsx  # Applies calm-mode class to body
 │
 ├── lib/
-│   ├── utils.ts            # cn(), delay(), clamp()
-│   ├── constants.ts        # NAV_ITEMS, URLs, RANK_COLORS
-│   └── data.ts             # ALL portfolio content (projects, skills, hobbies)
+│   ├── constants.ts            # NAV_ITEMS, PAGE_ORDER, RANK_COLORS, site URLs
+│   ├── data.ts                 # All portfolio content: projects[], skills[], hobbies[]
+│   └── aiToolkitData.ts        # AI Toolkit: 17 tasks + 6 experimenting tools (update weekly)
 │
-├── types/
-│   └── index.ts            # Project, Skill, Hobby, Rank, Mode types
+├── store/
+│   └── uiStore.ts              # Zustand: mode (zoro/calm), loading, modal, slash
 │
-└── styles/
-    └── animations.css      # Keyframe animations
+└── types/
+    └── index.ts                # Project, Skill, Hobby, Rank, Mode, SkillCategory types
 ```
 
 ---
 
-## 🚀 Getting Started
+## Dual Theme System
+
+The site has two modes toggled via the navbar button:
+
+| Token               | Zoro (dark)  | Calm (light)   |
+|---------------------|--------------|----------------|
+| `--color-void`      | `#040a06`    | `#eaf3ff`      |
+| `--color-deep`      | `#070d08`    | `#dceaf8`      |
+| `--color-accent`    | `#00ff6a`    | `#d4a017` (gold)|
+| `--color-text-primary`| `#dff2e8` | `#0f1f2e`      |
+
+All background effects check `useUIStore(s => s.mode)` and swap to calm-mode colors automatically.
+
+---
+
+## Updating Content
+
+### Weekly — AI Toolkit tools
+Edit **`src/lib/aiToolkitData.ts`** — update `toolkitTasks[]` or `experimentingTools[]`.
+No component changes needed; data is imported directly.
+
+### Projects / Skills / Hobbies
+Edit **`src/lib/data.ts`** — arrays exported as `projects`, `skills`, `hobbies`.
+
+### Navigation order
+Edit **`src/lib/constants.ts`** — `NAV_ITEMS` and `PAGE_ORDER` drive Navbar + SectionDots.
+
+---
+
+## Special Features
+
+| Feature | Description |
+|---------|-------------|
+| **Dual theme** | Zoro (dark neon) ↔ Calm (light blue + gold) — persisted in localStorage |
+| **Sound system** | Sword slash audio on all button/link clicks, ignores form inputs |
+| **Custom cursor** | Sword-tip cursor with slash trail |
+| **Easter egg** | Press `Z` anywhere → Three Sword Style animation |
+| **Two Moons** | Atmospheric golden moons top-left (About + Hero), dark mode only. Tribute to "2 Moons" — boywithuke |
+| **Skill modals** | Click any skill card → popup with why%, tools used, projects |
+| **Project modals** | Click any project card → full detail modal with live + GitHub links |
+| **AI Toolkit** | 17 task-based cards: click to see head-to-head tool comparison with key strengths, tags, direct links |
+| **ThirdEye widget** | Live AI usage dashboard embedded in AI Toolkit → https://thirdeye-five.vercel.app |
+| **Prefers-reduced-motion** | All canvas effects respect the system accessibility setting |
+
+---
+
+## Running Locally
 
 ```bash
-# 1. Install dependencies
 npm install
-
-# 2. Run dev server
 npm run dev
-
-# 3. Open in browser
 # http://localhost:3000
 ```
 
 ---
 
-## 🏗 Build Phases
+## Deployment
 
-### Phase 1 — Foundation
-- [x] Project structure
-- [x] Config files (Next.js, Tailwind, TypeScript)
-- [x] Design tokens in Tailwind config
-- [x] Data file (all content)
-- [x] Types
-- [x] Zustand store
-- [x] All hooks
-- [ ] globals.css design system
-
-### Phase 2 — Layout & Content
-- [ ] Navbar (sticky, frosted glass, active links)
-- [ ] Footer
-- [ ] SectionDots
-- [ ] ScrollProgress
-- [ ] All section skeletons with content
-
-### Phase 3 — Interactions
-- [ ] Custom cursor (dot + ring + click slash)
-- [ ] SwordSlash on page transition
-- [ ] LoadingScreen (three swords + energy bar)
-- [ ] Scroll reveal animations
-- [ ] Skill bar animations on intersect
-- [ ] Project modal (click to deep-dive)
-
-### Phase 4 — Cinematic & Polish
-- [ ] GSAP Hero intro timeline
-- [ ] Easter egg (Z key → Three Sword Style)
-- [ ] Mode toggle (Zoro ↔ Calm)
-- [ ] ParticleCanvas sword trail
-- [ ] Scroll parallax via GSAP ScrollTrigger
-- [ ] Mobile responsiveness pass
-
-### Phase 5 — Deploy
-- [ ] Add real photo to About
-- [ ] Add certificates when ready
-- [ ] Push to GitHub
-- [ ] Deploy to Vercel
-- [ ] Custom domain (optional)
+Auto-deploys to Vercel on every push to `main`.
+Manual deploy: `npx vercel --prod --yes`
 
 ---
 
-## 🎮 Easter Egg
-
-Press **Z** anywhere on the site to trigger **Three Sword Style mode**.
-
----
-
-## ⚔ Design System
-
-| Token        | Value                  |
-|--------------|------------------------|
-| Background   | `#040a06`              |
-| Green Core   | `#00ff6a`              |
-| Green Mid    | `#1aff7a`              |
-| Text Primary | `#dff2e8`              |
-| Font Display | Cinzel (serif)         |
-| Font UI      | Rajdhani (sans-serif)  |
-| Font Mono    | Share Tech Mono        |
-
----
-
-## 📬 Contact
+## Contact
 
 - Email: srihariprasad7078@gmail.com
 - GitHub: [haricodes2970](https://github.com/haricodes2970)
