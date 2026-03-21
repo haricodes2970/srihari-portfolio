@@ -136,6 +136,162 @@ function TypewriterBanner({ isCalm }: { isCalm: boolean }) {
   );
 }
 
+// ── ThirdEye Live Dashboard Card ──────────────────────────
+const THIRDEYE_URL = "https://thirdeye-five.vercel.app";
+
+const TERMINAL_LINES = [
+  "$ tracking ai_sessions ... OK",
+  "$ syncing vscode_activity ... OK",
+  "$ computing daily_usage ... OK",
+  "$ dashboard ready ✓",
+];
+
+function ThirdEyeWidget({ isCalm }: { isCalm: boolean }) {
+  const accent   = isCalm ? "#86EFAC" : "#00FF41";
+  const cardRef  = useRef<HTMLDivElement>(null);
+  const [lines,  setLines]  = useState<string[]>([]);
+  const [lineIdx, setLineIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [done,   setDone]   = useState(false);
+
+  // Type out terminal lines sequentially
+  useEffect(() => {
+    if (lineIdx >= TERMINAL_LINES.length) { setDone(true); return; }
+    const line = TERMINAL_LINES[lineIdx];
+    if (charIdx < line.length) {
+      const t = setTimeout(() => setCharIdx((c) => c + 1), 18);
+      return () => clearTimeout(t);
+    }
+    const t = setTimeout(() => {
+      setLines((prev) => [...prev, line]);
+      setLineIdx((l) => l + 1);
+      setCharIdx(0);
+    }, 280);
+    return () => clearTimeout(t);
+  }, [lineIdx, charIdx]);
+
+  // GSAP entrance
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    gsap.fromTo(el,
+      { opacity: 0, y: 24, scale: 0.97 },
+      { opacity: 1, y: 0,  scale: 1, duration: 0.7, ease: "expo.out", delay: 0.1 }
+    );
+  }, []);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className="mb-14 sm:mb-20 relative"
+    >
+      <div
+        className="relative overflow-hidden rounded-xl"
+        style={{
+          background:  "linear-gradient(135deg, rgba(0,255,65,0.04) 0%, rgba(0,180,255,0.04) 100%)",
+          border:      `1px solid ${accent}25`,
+          boxShadow:   `0 0 60px ${accent}08, inset 0 0 40px rgba(0,0,0,0.3)`,
+        }}
+      >
+        {/* Top accent line */}
+        <div
+          className="h-[2px] w-full"
+          style={{ background: `linear-gradient(90deg, transparent, ${accent}, rgba(0,180,255,0.8), transparent)` }}
+        />
+
+        <div className="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-6 items-center">
+          {/* Left — terminal output */}
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              {/* Live dot */}
+              <span
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ background: accent, boxShadow: `0 0 8px ${accent}`, animation: "wipPulse 1.5s ease-in-out infinite" }}
+              />
+              <span className="font-mono text-[10px] tracking-[3px] uppercase" style={{ color: accent }}>
+                Live Tracking
+              </span>
+              <span className="font-mono text-[9px] text-text-dim">— ThirdEye Dashboard</span>
+            </div>
+
+            <h3
+              className="font-display font-bold text-text-primary mb-1 leading-tight"
+              style={{ fontSize: "clamp(16px, 2.5vw, 22px)" }}
+            >
+              My AI Usage, Live
+            </h3>
+            <p className="font-ui text-text-secondary font-light text-sm mb-5 max-w-sm">
+              Every Claude session, VS Code hour, and AI tool interaction I make — tracked and visualised in real time.
+            </p>
+
+            {/* Terminal lines */}
+            <div
+              className="font-mono text-[10px] sm:text-[11px] leading-6 rounded-lg px-4 py-3"
+              style={{ background: "rgba(0,0,0,0.55)", border: "1px solid rgba(255,255,255,0.05)" }}
+            >
+              {lines.map((line, i) => (
+                <div key={i} style={{ color: line.includes("✓") ? accent : "#6B7280" }}>{line}</div>
+              ))}
+              {!done && lineIdx < TERMINAL_LINES.length && (
+                <div style={{ color: "#9CA3AF" }}>
+                  {TERMINAL_LINES[lineIdx].slice(0, charIdx)}
+                  <span
+                    className="inline-block w-[5px] h-[12px] align-middle ml-px"
+                    style={{ background: accent, animation: "wipPulse 0.6s step-start infinite" }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right — CTA */}
+          <div className="flex flex-col items-center sm:items-end gap-3">
+            {/* Eye icon */}
+            <div
+              className="w-16 h-16 rounded-xl flex items-center justify-center text-2xl mb-1"
+              style={{
+                background:  `radial-gradient(circle, ${accent}18 0%, transparent 70%)`,
+                border:      `1px solid ${accent}30`,
+                boxShadow:   `0 0 30px ${accent}12`,
+              }}
+            >
+              👁️
+            </div>
+            <p className="font-mono text-[9px] tracking-[2px] uppercase text-text-dim text-center">
+              Open Dashboard
+            </p>
+            <a
+              href={THIRDEYE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2 font-mono text-[10px] tracking-[2px] uppercase
+                         font-semibold px-6 py-3 rounded-lg transition-all duration-250
+                         hover:scale-105 active:scale-95"
+              style={{
+                background:  accent,
+                color:       "#000",
+                boxShadow:   `0 0 24px ${accent}40`,
+              }}
+            >
+              View My Stats
+              <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
+            </a>
+            <p className="font-mono text-[8px] tracking-[1px] text-text-dim text-center">
+              thirdeye-five.vercel.app
+            </p>
+          </div>
+        </div>
+
+        {/* Bottom accent line */}
+        <div
+          className="h-px w-full"
+          style={{ background: `linear-gradient(90deg, transparent, ${accent}20, transparent)` }}
+        />
+      </div>
+    </motion.div>
+  );
+}
+
 // ── Experimenting Lab ──────────────────────────────────────
 function ExperimentingLab({ isCalm }: { isCalm: boolean }) {
   const accent = isCalm ? "#86EFAC" : "#00FF41";
@@ -670,6 +826,9 @@ export default function AIToolkit() {
 
           {/* ── WEEKLY UPDATE BANNER ── */}
           <TypewriterBanner isCalm={isCalm} />
+
+          {/* ── THIRDEYE LIVE DASHBOARD ── */}
+          <ThirdEyeWidget isCalm={isCalm} />
 
           {/* ── EXPERIMENTING LAB ── */}
           <ExperimentingLab isCalm={isCalm} />
