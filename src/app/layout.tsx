@@ -15,6 +15,7 @@ import EasterEgg       from "@/components/effects/EasterEgg";
 import LoadingScreen   from "@/components/effects/LoadingScreen";
 import ModeApplicator  from "@/components/effects/ModeApplicator";
 import SoundSystem     from "@/components/effects/SoundSystem";
+import MusicControl    from "@/components/effects/MusicControl";
 
 export const metadata: Metadata = {
   title: "Srihari Prasad S — You Think, I Make It Real",
@@ -42,6 +43,7 @@ export default function RootLayout({
 
         {/* Sound engine */}
         <SoundSystem />
+        <MusicControl />
 
         {/* Visual effects — always mounted */}
         <LoadingScreen />
