@@ -18,7 +18,7 @@ import SoundSystem     from "@/components/effects/SoundSystem";
 import MusicControl    from "@/components/effects/MusicControl";
 
 export const metadata: Metadata = {
-  title: "Srihari Prasad S — You Think, I Make It Real",
+  title: "Hari",
   description:
     "Portfolio of Srihari Prasad S — AI/ML Student, Full Stack Developer, AI Agent Maker. Building what I think.",
   keywords: ["Srihari Prasad", "portfolio", "AI", "ML", "full stack", "developer"],
