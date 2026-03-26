@@ -79,16 +79,46 @@ export const projects: Project[] = [
     note: "🚧 In active development. GitHub link coming soon.",
   },
   {
-    id: "timetrack",
+    id: "thirdeye",
     num: "007",
-    rank: "B",
-    title: "AI TimeTrack",
+    rank: "A",
+    title: "ThirdEye",
     overview:
-      "A cross-platform active-time tracker — logs real engagement time across AI browser tools and AI coding assistants combined.",
-    detail: `Two components: a Chrome Extension monitors tab focus and idle state across ChatGPT, Claude, Grok, and Gemini. A VS Code Extension hooks into editor activity events for Cursor, Copilot, and similar tools.\n\nActive detection uses idle timeouts, cross-tab deduplication, and IndexedDB crash recovery snapshots. A unified React dashboard shows per-AI breakdowns, 7/30-day trends, and usage streaks. 100% local-first, no backend.`,
-    tech: ["TypeScript", "Manifest V3", "VS Code Extension API", "Vite", "React", "Tailwind CSS", "Recharts", "IndexedDB"],
-    wip: true,
-    note: "🚧 Work in progress. GitHub link coming when stable.",
+      "Automatically tracks time spent on AI tools via a Chrome extension and active coding time, project name, and daily commit counts via a VS Code extension.",
+    detail: `A Chrome Extension (MV3) captures active time across AI tools, while a VS Code Extension logs coding activity, project context, and daily commit counts. Data flows into Supabase for storage and aggregation.
+
+A Next.js dashboard visualizes usage trends and exposes an embeddable portfolio widget, with deployment on Vercel for instant sharing.`,
+    tech: ["Next.js 15", "TypeScript", "Supabase", "Tailwind CSS", "Chrome Extension (MV3)", "VS Code Extension API", "Vercel"],
+    github: "https://github.com/haricodes2970/ThirdEye.git",
+    live: "https://thirdeye-five.vercel.app",
+  },
+  {
+    id: "pisumathu",
+    num: "008",
+    rank: "A",
+    title: "Pisumathu",
+    overview:
+      "A fully offline push-to-talk speech-to-text overlay for Windows. Hold both Ctrl keys to record, release to transcribe, and the text appears in a floating pill and chat history ??? all locally with no cloud or API keys.",
+    detail: `Pisumathu runs OpenAI Whisper (base) locally with optional CUDA 12.1 acceleration and a CPU fallback, so it stays fast and private on any machine.
+
+Audio capture is handled by PyAudio, hotkeys by pynput, and the floating pill + chat history are rendered with Tkinter. Multilingual transcription includes Kannada support.`,
+    tech: ["Python 3.10", "OpenAI Whisper (base)", "PyTorch", "CUDA 12.1", "PyAudio", "Tkinter", "pynput"],
+    github: "https://github.com/haricodes2970/Pisumathu-",
+    live: "https://github.com/haricodes2970/Pisumathu-/releases/latest",
+  },
+  {
+    id: "sevam",
+    num: "009",
+    rank: "A",
+    title: "Sevam",
+    overview:
+      "A personalized Ayurvedic health companion that analyzes user symptoms with NLP, runs a safety guard, and retrieves relevant Ayurvedic knowledge via RAG to ground responses from a local LLM.",
+    detail: `Sevam combines symptom NLP with a safety guard, then grounds responses using RAG over curated Ayurvedic knowledge before passing context to a local LLM (Ollama).
+
+Personalization comes from a dosha (prakriti) quiz and food diary. The system is exposed through a FastAPI backend with a React chat UI for day-to-day guidance.`,
+    tech: ["Python", "FastAPI", "LangChain", "ChromaDB", "SentenceTransformers", "spaCy", "Transformers", "Ollama (llama3.2)", "MongoDB Atlas (Motor)", "React", "Vite", "Tailwind CSS"],
+    github: "https://github.com/haricodes2970/Sevam.git",
+    note: "Local dev only ??? not deployed.",
   },
 ];
 
@@ -100,8 +130,8 @@ export const skills: Skill[] = [
     category:  "ai",
     level:     92,
     why:       "Python is my primary language. 92% because I write production-grade pipelines, not just scripts — but I'm not a CPython internals expert, and that's the honest ceiling.",
-    tools:     ["NumPy", "Pandas", "scikit-learn", "FastAPI", "BeautifulSoup", "spaCy", "asyncio", "Poetry"],
-    usedIn:    ["Deepfake Detection System", "VTU Smart Scheduler", "OverlapOptimizer"],
+    tools:     ["NumPy", "Pandas", "scikit-learn", "FastAPI", "BeautifulSoup", "spaCy", "Transformers", "OpenAI Whisper (base)", "PyAudio", "Tkinter", "pynput", "asyncio", "Poetry"],
+    usedIn:    ["Deepfake Detection System", "VTU Smart Scheduler", "OverlapOptimizer", "Pisumathu", "Sevam"],
   },
   {
     styleName: "Haki — Deep Learning",
@@ -109,8 +139,8 @@ export const skills: Skill[] = [
     category:  "ai",
     level:     78,
     why:       "I've trained custom CNNs, used EfficientNet with ArcFace embeddings, and implemented Grad-CAM++ visualizations. 78% because I haven't gone deep into custom CUDA kernels or advanced distributed training yet.",
-    tools:     ["EfficientNet-B2", "ArcFace", "MTCNN", "Grad-CAM++", "torchvision", "torchaudio", "ONNX export"],
-    usedIn:    ["Deepfake Detection System"],
+    tools:     ["EfficientNet-B2", "ArcFace", "MTCNN", "Grad-CAM++", "torchvision", "torchaudio", "OpenAI Whisper (base)", "CUDA 12.1", "ONNX export"],
+    usedIn:    ["Deepfake Detection System", "Pisumathu"],
   },
   {
     styleName: "Ittoryu — Agent Logic",
@@ -118,8 +148,8 @@ export const skills: Skill[] = [
     category:  "ai",
     level:     82,
     why:       "Built a full RAG pipeline with LangChain — custom retrievers, memory chains, Groq LLM routing. 82% because multi-agent orchestration with tools is still an area I'm deepening.",
-    tools:     ["LangChain", "Groq Llama 3", "RAG pipelines", "Pinecone retriever", "PromptTemplate", "ConversationalChain"],
-    usedIn:    ["VTU Smart Scheduler"],
+    tools:     ["LangChain", "Groq Llama 3", "Ollama (llama3.2)", "RAG pipelines", "ChromaDB", "Pinecone retriever", "PromptTemplate", "ConversationalChain"],
+    usedIn:    ["VTU Smart Scheduler", "Sevam"],
   },
   {
     styleName: "Nitoryu — Semantic Search",
@@ -127,8 +157,8 @@ export const skills: Skill[] = [
     category:  "ai",
     level:     75,
     why:       "Implemented vector indexing, semantic retrieval with cosine similarity, and hybrid search. 75% because I've used it in projects but haven't tuned ANN index parameters at massive scale.",
-    tools:     ["Pinecone", "FAISS", "Sentence-Transformers", "HuggingFace Embeddings", "HNSW index"],
-    usedIn:    ["VTU Smart Scheduler", "OverlapOptimizer"],
+    tools:     ["Pinecone", "FAISS", "ChromaDB", "SentenceTransformers", "HuggingFace Embeddings", "HNSW index"],
+    usedIn:    ["VTU Smart Scheduler", "OverlapOptimizer", "Sevam"],
   },
   {
     styleName: "Rokudo Dake — Prompt Craft",
@@ -154,8 +184,8 @@ export const skills: Skill[] = [
     category:  "frontend",
     level:     86,
     why:       "Built full-stack apps with App Router, SSR, client/server components, and complex state. 86% because I'm still sharpening advanced patterns like streaming RSC and fine-grained Suspense.",
-    tools:     ["React 18", "Next.js 15 App Router", "Framer Motion", "GSAP", "Zustand", "React Query", "Radix UI"],
-    usedIn:    ["This Portfolio", "VTU Smart Scheduler", "BookYourEvent", "OverlapOptimizer"],
+    tools:     ["React 18", "Next.js 15 App Router", "Vite", "Vercel", "Framer Motion", "GSAP", "Zustand", "React Query", "Radix UI"],
+    usedIn:    ["This Portfolio", "VTU Smart Scheduler", "BookYourEvent", "OverlapOptimizer", "ThirdEye", "Sevam"],
   },
   {
     styleName: "Speed Slash — Styling",
@@ -164,7 +194,7 @@ export const skills: Skill[] = [
     level:     90,
     why:       "My default styling layer. I build pixel-precise, responsive UIs fast with Tailwind. 90% because I haven't deeply explored JIT plugin authoring or complex token-based design systems.",
     tools:     ["Tailwind CSS v3", "PostCSS", "clsx", "tailwind-merge", "Custom plugins", "CSS variables"],
-    usedIn:    ["This Portfolio", "VTU Smart Scheduler", "Toki", "BookYourEvent"],
+    usedIn:    ["This Portfolio", "VTU Smart Scheduler", "Toki", "BookYourEvent", "ThirdEye", "Sevam"],
   },
   {
     styleName: "Chrome Blade — Extensions",
@@ -172,8 +202,8 @@ export const skills: Skill[] = [
     category:  "frontend",
     level:     78,
     why:       "I write typed React, typed APIs, and typed Chrome extensions. 78% because I lean on type inference heavily and haven't built complex generic utility types or type-level computation.",
-    tools:     ["TypeScript 5", "Manifest V3", "Vite", "ESLint", "Generic types", "Discriminated unions"],
-    usedIn:    ["Toki", "AI TimeTrack", "This Portfolio"],
+    tools:     ["TypeScript 5", "Manifest V3", "VS Code Extension API", "Vite", "ESLint", "Generic types", "Discriminated unions"],
+    usedIn:    ["Toki", "ThirdEye", "This Portfolio"],
   },
   {
     styleName: "Haki — System Control",
@@ -191,7 +221,7 @@ export const skills: Skill[] = [
     level:     80,
     why:       "Built async ML inference APIs, Kafka producers, and websocket endpoints. 80% because advanced dependency injection patterns and background task queuing are still areas I'm formalizing.",
     tools:     ["FastAPI", "Pydantic v2", "asyncio", "Uvicorn", "APScheduler", "Kafka producers"],
-    usedIn:    ["Deepfake Detection System", "VTU Smart Scheduler", "OverlapOptimizer"],
+    usedIn:    ["Deepfake Detection System", "VTU Smart Scheduler", "OverlapOptimizer", "Sevam"],
   },
   {
     styleName: "Demon Slash — Data",
@@ -199,8 +229,8 @@ export const skills: Skill[] = [
     category:  "backend",
     level:     82,
     why:       "Designed schemas, TTL indexes, aggregation pipelines (MongoDB) and normalized relational schemas with full-text search (PostgreSQL). 82% because query optimization at massive scale is still a growth area.",
-    tools:     ["MongoDB Atlas", "Mongoose", "PostgreSQL", "Prisma", "Redis", "Neo4j", "TTL indexes"],
-    usedIn:    ["BookYourEvent", "Picy", "VTU Smart Scheduler", "Deepfake Detection System"],
+    tools:     ["MongoDB Atlas", "Motor", "Mongoose", "PostgreSQL", "Supabase", "Prisma", "Redis", "Neo4j", "TTL indexes"],
+    usedIn:    ["BookYourEvent", "Picy", "VTU Smart Scheduler", "Deepfake Detection System", "ThirdEye", "Sevam"],
   },
   {
     styleName: "Shadow Step — DevOps",

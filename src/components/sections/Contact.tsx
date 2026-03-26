@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import { SITE_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/constants";
@@ -15,27 +15,34 @@ const fadeUp = (delay = 0) => ({
 });
 
 const LINKS = [
-  { icon: "⌥", label: "GitHub",   value: "haricodes2970", href: GITHUB_URL   },
-  { icon: "◈", label: "LinkedIn", value: "haricodes2970", href: LINKEDIN_URL },
+  { icon: "?", label: "GitHub",   value: "haricodes2970", href: GITHUB_URL   },
+  { icon: "?", label: "LinkedIn", value: "haricodes2970", href: LINKEDIN_URL },
 ];
 
 export default function Contact() {
   const [name,    setName]    = useState("");
   const [email,   setEmail]   = useState("");
   const [message, setMessage] = useState("");
-  const [sent,    setSent]    = useState(false);
+  const [status,  setStatus]  = useState<"idle" | "success">("idle");
   const mode   = useUIStore((s) => s.mode);
   const isCalm = mode === "calm";
 
-  const handleSubmit = () => {
-    if (!name.trim() || !message.trim()) return;
-    const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !message.trim()) return;
+
+    const subject = encodeURIComponent(`Message from ${name.trim()}`);
     const body    = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+      `From: ${name.trim()} <${email.trim()}>\n\n${message.trim()}`
     );
-    window.location.href = `mailto:${SITE_EMAIL}?subject=${subject}&body=${body}`;
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
+
+    window.open(`mailto:${SITE_EMAIL}?subject=${subject}&body=${body}`, "_blank");
+
+    setStatus("success");
+    setName("");
+    setEmail("");
+    setMessage("");
+    setTimeout(() => setStatus("idle"), 3000);
   };
 
   return (
@@ -46,7 +53,7 @@ export default function Contact() {
                    px-5 sm:px-8 md:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20
                    flex flex-col justify-center relative overflow-hidden"
       >
-        {/* Cyberpunk crack background — distorted mesh + cracks + glitch */}
+        {/* Cyberpunk crack background ? distorted mesh + cracks + glitch */}
         <CyberpunkCrackBg isCalm={isCalm} />
 
         {/* Section header */}
@@ -63,7 +70,7 @@ export default function Contact() {
         {/* Two column layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-20 items-start max-w-5xl relative z-10">
 
-          {/* ── Left — Info ── */}
+          {/* ?? Left ? Info ?? */}
           <div className="flex flex-col gap-6">
             <motion.div {...fadeUp(0.1)}>
               <h3
@@ -83,7 +90,7 @@ export default function Contact() {
                 style={{ fontSize: "clamp(13px, 1.6vw, 15px)" }}
               >
                 Whether it&apos;s an AI product, a full-stack system, or just a
-                conversation about building something that doesn&apos;t exist yet —
+                conversation about building something that doesn&apos;t exist yet ?
                 reach out. I&apos;m always interested in ambitious projects and
                 people who think beyond the average.
               </p>
@@ -103,14 +110,13 @@ export default function Contact() {
                 }}
               />
               <span className="font-mono text-[9px] tracking-[2px] uppercase text-green-core">
-                Available for projects · Responds fast
+                Available for projects ? Responds fast
               </span>
             </motion.div>
 
             {/* Email */}
-            <motion.a
+            <motion.div
               {...fadeUp(0.2)}
-              href={`mailto:${SITE_EMAIL}`}
               className="flex items-center gap-4 p-4 sm:p-5
                          bg-card border border-green-core/8 rounded-sm card-shine
                          transition-all duration-300 group
@@ -121,7 +127,7 @@ export default function Contact() {
                 className="text-xl transition-transform duration-300 group-hover:scale-110"
                 style={{ filter: "drop-shadow(0 0 6px rgba(0,255,106,0.3))" }}
               >
-                ✉
+                ?
               </span>
               <div>
                 <p className="font-mono text-[8px] tracking-[3px] uppercase text-text-dim mb-1">
@@ -135,9 +141,9 @@ export default function Contact() {
               <span className="ml-auto font-mono text-[9px] text-text-dim
                                opacity-0 group-hover:opacity-100 transition-all duration-300
                                group-hover:translate-x-0 translate-x-1">
-                →
+                ?
               </span>
-            </motion.a>
+            </motion.div>
 
             {/* Social links */}
             <motion.div {...fadeUp(0.3)} className="flex flex-col gap-3">
@@ -170,14 +176,14 @@ export default function Contact() {
                   <span className="ml-auto font-mono text-[9px] text-text-dim
                                    opacity-0 group-hover:opacity-100 transition-all duration-300
                                    group-hover:translate-x-0 translate-x-1">
-                    →
+                    ?
                   </span>
                 </a>
               ))}
             </motion.div>
           </div>
 
-          {/* ── Right — Message form ── */}
+          {/* ?? Right ? Message form ?? */}
           <motion.div
             {...fadeUp(0.2)}
             className="bg-card border border-green-core/10 rounded-sm p-6 sm:p-8
@@ -196,97 +202,99 @@ export default function Contact() {
               Send a Message
             </h3>
 
-            {/* Name */}
-            <div className="mb-4">
-              <label className="font-mono text-[8px] tracking-[3px] uppercase
+            <form onSubmit={handleSubmit}>
+              {/* Name */}
+              <div className="mb-4">
+                <label className="font-mono text-[8px] tracking-[3px] uppercase
                                 text-text-dim block mb-2">
-                Your Name
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
-                className="w-full bg-surface border border-green-core/10 rounded-sm
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter your name"
+                  className="w-full bg-surface border border-green-core/10 rounded-sm
                            px-4 py-2.5 font-ui text-sm text-text-primary
                            placeholder:text-text-dim outline-none
                            transition-all duration-200"
-              />
-            </div>
+                />
+              </div>
 
-            {/* Email */}
-            <div className="mb-4">
-              <label className="font-mono text-[8px] tracking-[3px] uppercase
+              {/* Email */}
+              <div className="mb-4">
+                <label className="font-mono text-[8px] tracking-[3px] uppercase
                                 text-text-dim block mb-2">
-                Your Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full bg-surface border border-green-core/10 rounded-sm
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="w-full bg-surface border border-green-core/10 rounded-sm
                            px-4 py-2.5 font-ui text-sm text-text-primary
                            placeholder:text-text-dim outline-none
                            transition-all duration-200"
-              />
-            </div>
+                />
+              </div>
 
-            {/* Message */}
-            <div className="mb-5">
-              <label className="font-mono text-[8px] tracking-[3px] uppercase
+              {/* Message */}
+              <div className="mb-5">
+                <label className="font-mono text-[8px] tracking-[3px] uppercase
                                 text-text-dim block mb-2">
-                Message
-              </label>
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="What are we building?"
-                rows={4}
-                className="w-full bg-surface border border-green-core/10 rounded-sm
+                  Message
+                </label>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="What are we building?"
+                  rows={4}
+                  className="w-full bg-surface border border-green-core/10 rounded-sm
                            px-4 py-2.5 font-ui text-sm text-text-primary
                            placeholder:text-text-dim outline-none resize-none
                            transition-all duration-200"
-              />
-            </div>
+                />
+              </div>
 
-            {/* Submit */}
-            <button
-              onClick={handleSubmit}
-              disabled={!name.trim() || !message.trim()}
-              className={`
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={!name.trim() || !email.trim() || !message.trim()}
+                className={`
                 group relative w-full font-mono text-[10px] tracking-[3px] uppercase
                 py-3.5 rounded-sm overflow-hidden
                 transition-all duration-300
                 disabled:opacity-40 disabled:cursor-not-allowed
-                ${sent
+                ${status === "success"
                   ? "bg-green-dim text-void"
                   : "bg-green-core text-void hover:shadow-[0_0_30px_rgba(0,255,106,0.4),0_0_60px_rgba(0,255,106,0.15)]"
                 }
               `}
-            >
-              <span className="relative z-10">
-                {sent ? "✓ Message Sent" : "⚔ Send Message"}
-              </span>
-              {/* Shine sweep */}
-              {!sent && (
-                <span
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100
+              >
+                <span className="relative z-10">
+                  {status === "success" ? "Message Sent" : "? Send Message"}
+                </span>
+                {/* Shine sweep */}
+                {status !== "success" && (
+                  <span
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100
                              transition-opacity duration-500"
-                  style={{
-                    background:
-                      "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%)",
-                    backgroundSize: "200% 100%",
-                    animation: "shimmer 1.5s ease infinite",
-                  }}
-                />
-              )}
-            </button>
+                    style={{
+                      background:
+                        "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%)",
+                      backgroundSize: "200% 100%",
+                      animation: "shimmer 1.5s ease infinite",
+                    }}
+                  />
+                )}
+              </button>
 
-            <p className="font-mono text-[8px] tracking-[2px] uppercase text-text-dim
+              <p className="font-mono text-[8px] tracking-[2px] uppercase text-text-dim
                            text-center mt-3">
-              Opens your email client · No tracking
-            </p>
+                {status === "success" ? "Opening Gmail..." : "Opens Gmail to send"}
+              </p>
+            </form>
           </motion.div>
         </div>
       </section>

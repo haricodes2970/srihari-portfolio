@@ -141,6 +141,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen((v) => !v)}
             className="md:hidden flex flex-col gap-[5px] p-1"
             aria-label="Toggle menu"
+            suppressHydrationWarning
           >
             <span
               className={`block w-5 h-[1.5px] bg-text-secondary transition-all duration-300
